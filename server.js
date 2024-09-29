@@ -1,51 +1,42 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const mysql = require('mysql');
+const fs = require('fs');
+const { Pool } = require('pg');
 
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'your_username',
-  password: 'your_password',
-  database: 'your_database'
-});
+const config = JSON.parse(fs.readFileSync('config.json'));
 
-
-db.query(`
-  CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
-  );
-`, (err, result) => {
-  // ...
-});
-
-app.post('/users', (req, res) => {
-  const { name } = req.body;
-  pool.query(`
-    INSERT INTO users (name) VALUES ($1);
-  `, [name], (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send({ message: 'Error creating user' });
-    } else {
-      res.send({ message: 'User created successfully' });
-    }
-  });
+const pool = new Pool({
+  user: config.user,
+  host: config.host,
+  database: config.database,
+  password: config.password,
+  port: config.port,
 });
 
 app.get('/', (req, res) => {
-  pool.query('SELECT * FROM your_table', (err, result) => {
+  pool.query('SELECT * FROM levels', (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).send('Internal server error');
     } else {
-      res.status(200).json(result.rows);
+      res.json(result.rows);
+    }
+  });
+});
+
+app.get('/levels', (req, res) => {
+  pool.query('SELECT * FROM levels', (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Internal server error');
+    } else {
+      console.log(result.rows); // Add this line to print the data
+      res.json(result.rows);
     }
   });
 });
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
-
