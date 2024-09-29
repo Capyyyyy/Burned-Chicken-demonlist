@@ -7,8 +7,7 @@ node_modules/
 # Ignore config.json file
 config.json
 
-# Ignore any file with a .tmp extension
-*.tmp
+
 
 # Ignore any file in the logs directory
 logs/
