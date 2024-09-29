@@ -1,3 +1,6 @@
+require('dotenv').config();
+
+
 // Sample data with YouTube video IDs for embedding
 const levelsold = [
     { rank: 1, level: "Tidal Wave", creator: "OniLink", completedBy: "Zoink", videoId: "9fsZ014qB3s" },
