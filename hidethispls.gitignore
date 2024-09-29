@@ -14,3 +14,5 @@ config.json
 logs/
 
 config.env
+
+hidethispls.gitignore
