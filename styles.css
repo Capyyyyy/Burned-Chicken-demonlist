@@ -118,8 +118,8 @@ td.video {
 
 
 iframe {
-  width: 250px;
-  height: 140px;
+  width: 512px;
+  height: 256px;
 }
 
 /* Add this rule to limit the height of the thumbnail image */

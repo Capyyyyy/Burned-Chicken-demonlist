@@ -1,8 +1,3 @@
-function html(strings, ...values) {
-  return strings.reduce((result, string, i) => {
-    return result + string + (values[i] || '');
-  }, '');
-}
 
 const hamburger = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
@@ -68,44 +63,47 @@ fetch('http://localhost:3000/levels')
   }
   
 
-  function showFullInfo(videoId) {
-    const tableBody = document.getElementById('levelTable');
-    const level = levels.find(level => level.videoId === videoId);
-    
-    if (level) {
-      const fullInfoHTML = `
-        <tr>
-          <td colspan="2" class="full-info">
-            <button onclick="renderTable()" class="back-button">
-              &#8592; Back to list
-            </button>
-            <div class="level-info">
-              <h2>${level.rank}. ${level.name}</h2>
-              <div class="level-details">
-                <p><strong>Creator:</strong> ${level.creator}</p>
-                <p><strong>First Victor:</strong> ${level.completedBy}</p>
-              </div>
-              <div class="video-container">
-                <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
-                  <iframe 
-                    src="https://www.youtube.com/embed/${level.videoId}" 
-                    title="YouTube video player" 
-                    width="100%"   frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                    allowfullscreen
-                    style="position:absolute;top:0;left:0;width:100%;height:100%;">
-                  </iframe>
-                </div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      `;
-      
-      tableBody.innerHTML = fullInfoHTML;
-    }
-  }
-
+function showEmbed(videoId, containerId) {
+  const container = document.getElementById(containerId);
+  const iframe = `
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/${videoId}"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+  `;
+  container.innerHTML = iframe;
+}
   
+function showFullInfo(videoId) {
+  const tableBody = document.getElementById('levelTable');
+  tableBody.innerHTML = '';
+  const level = levels.find(level => level.videoId === videoId);
+
+  if (level) {
+    const fullInfoHTML = `
+      <tr>
+        <td colspan="2" class="full-info">
+          <button onclick="renderTable()" style="position: absolute; top: 10px; left: 10px; background-color: transparent; border: none; padding: 10px; cursor: pointer; z-index: 1; color: #ffffff;">
+            &#8592;
+          </button>
+          <div class="level-info">
+            <h2>${level.rank}. ${level.name}</h2>
+            <div class="level-details">
+              <p><strong>Creator:</strong> ${level.creator}</p>
+              <p><strong>First Victor:</strong> ${level.completedBy}</p>
+            </div>
+          </div>
+          <div id="embed-container"></div>
+        </td>
+      </tr>
+    `;
+
+    tableBody.innerHTML = fullInfoHTML;
+    showEmbed(videoId, 'embed-container');
+  }
+}
+
+
 // Initial table render
 renderTable();
