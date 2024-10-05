@@ -1,5 +1,9 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+
+app.use(cors());
+
 const port = 3000;
 const fs = require('fs');
 const { Pool } = require('pg');
@@ -26,17 +30,31 @@ app.get('/', (req, res) => {
 });
 
 app.get('/levels', (req, res) => {
-  pool.query('SELECT * FROM levels', (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Internal server error');
-    } else {
-      console.log(result.rows); // Add this line to print the data
-      res.json(result.rows);
-    }
-  });
+  try {
+    pool.query('SELECT * FROM levels', (err, result) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal server error');
+      } else {
+        res.json(result.rows);
+      }
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+  }
 });
-
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+app.use((req, res, next) => {
+  console.log(res.getHeaders());
+  next();
+});
+
+
+
+
+
+
