@@ -130,7 +130,7 @@ td.video img {
 }
 
 /* Level Info on the Right */
-td.info {
+.info {
   cursor: pointer;
   padding: 12px;
   font-size: 14px;

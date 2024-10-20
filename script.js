@@ -38,7 +38,10 @@ fetch('http://localhost:3000/levels')
   function renderTable() {
     const tableBody = document.getElementById('levelTable');
     let tableHTML = ''; // Initialize an empty string to store all the HTML
-  
+
+    // Sort the levels array by rank
+    levels.sort((a, b) => a.rank - b.rank);
+
     levels.forEach(level => {
       tableHTML += `
         <tr>
@@ -49,7 +52,7 @@ fetch('http://localhost:3000/levels')
             </div>
           </td>
           <td>
-            <button class="info" style="background-color: transparent; border: none; padding: 12px; cursor: pointer; width: 100%; text-align: left; color: #ffffff;" onclick="showFullInfo('${level.videoId}')">
+            <button class="info" style="background-color: transparent; border: none; padding: 6px; cursor: pointer; width: 100%; text-align: left; color: #ffffff;" onclick="showFullInfo('${level.videoId}')">
               <strong>${level.rank}. ${level.name}</strong> by ${level.creator} <br>
               First submission by: ${level.completedBy}
             </button>
@@ -57,10 +60,10 @@ fetch('http://localhost:3000/levels')
         </tr>
       `;
     });
-  
+
     // Set the innerHTML once, after the loop
     tableBody.innerHTML = tableHTML;
-  }
+}
   
 
 function showEmbed(videoId, containerId) {
@@ -82,9 +85,9 @@ function showFullInfo(videoId) {
 
   if (level) {
     const fullInfoHTML = `
-      <tr>
+      <tr class="full-info">
         <td colspan="2" class="full-info">
-          <button onclick="renderTable()" style="position: absolute; top: 10px; left: 10px; background-color: transparent; border: none; padding: 10px; cursor: pointer; z-index: 1; color: #ffffff;">
+          <button class="back-button" onclick="renderTable()">
             &#8592;
           </button>
           <div class="level-info">
