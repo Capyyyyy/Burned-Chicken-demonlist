@@ -15,7 +15,8 @@ body {
 header {
     position:fixed;
     top: 0;
-    width: 100%;
+    right: -2px;
+    width: 101%;
     background-color: rgba(0, 0, 0, 0.9);
     z-index: 100;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
@@ -110,7 +111,7 @@ td, th {
 
 .info {
   cursor: pointer;
-  padding: 12px;
+  padding: 22px;
   font-size: 14px;
   text-align: left;
   width: 80%;
@@ -149,6 +150,9 @@ tbody tr:hover {
     transform: scale(1.05);
 }
 
+button.info {
+    background-color: transparent;
+}
 
 .full-info {
     animation: none;

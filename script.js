@@ -7,8 +7,11 @@ hamburger.addEventListener('click', () => {
   nav.classList.toggle('show');
 });
 
+
+
+
 // old data for the website not needed for now
-const levels = [
+const levelsold = [
     { rank: 1, level: "Tidal Wave", creator: "OniLink", completedBy: "Zoink", videoId: "9fsZ014qB3s" },
     { rank: 2, level: "Untitled", creator: "iiLuna", completedBy: "Phát Võ", videoId: "JdkvhuCW3CQ" },
     { rank: 3, level: "Bloodbath", creator: "Riot", completedBy: "Frisk", videoId: "9bZkp7q19f0" },
@@ -22,7 +25,7 @@ const levels = [
 
 // script.js
 
-let levels1 = []; // Initialize the levels variable as an empty array
+let levels = []; // Initialize the levels variable as an empty array
 
 fetch('http://localhost:3000/levels')
   .then(response => {

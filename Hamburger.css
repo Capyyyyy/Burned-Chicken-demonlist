@@ -4,12 +4,8 @@
 
       font-size: 14px;
     }
-    td {
-      padding: 10px;
-    }
-    td.video {
-        width:100%;
-    }
+
+
     /* Hamburger Menu Styles */
     #hamburger {
         display: block;
@@ -56,6 +52,7 @@
         padding: 10px 0;
         animation: slideDown 0.3s ease-in-out;
         backdrop-filter: blur(1.5px);
+        
     }
 
 
@@ -67,8 +64,38 @@
     }
 
     #nav.show li {
-    padding: 10px;
+      padding: 10px;
+      border: solid 1px ;
     }
+
+
+
+    #dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 200px;
+      background-color: #fff;
+      padding: 10px 0;
+      animation: slideDown 0.3s ease-in-out;
+      backdrop-filter: blur(1.5px);
+    }
+    
+    #dropdown ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      flex-direction: column;
+    }
+    
+    #dropdown li {
+      padding: 10px;
+    }
+    
+
+
+
 
   
 @keyframes slideDown {
@@ -87,4 +114,5 @@
   100% {
     transform: translateY(-100%);
   }
+}
 }
