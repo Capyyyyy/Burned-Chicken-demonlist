@@ -8,7 +8,7 @@ hamburger.addEventListener('click', () => {
 });
 
 // old data for the website not needed for now
-const levelsold = [
+const levels = [
     { rank: 1, level: "Tidal Wave", creator: "OniLink", completedBy: "Zoink", videoId: "9fsZ014qB3s" },
     { rank: 2, level: "Untitled", creator: "iiLuna", completedBy: "Phát Võ", videoId: "JdkvhuCW3CQ" },
     { rank: 3, level: "Bloodbath", creator: "Riot", completedBy: "Frisk", videoId: "9bZkp7q19f0" },
@@ -22,7 +22,7 @@ const levelsold = [
 
 // script.js
 
-let levels = []; // Initialize the levels variable as an empty array
+let levels1 = []; // Initialize the levels variable as an empty array
 
 fetch('http://localhost:3000/levels')
   .then(response => {
@@ -35,36 +35,52 @@ fetch('http://localhost:3000/levels')
   })
   .catch(error => console.error(error));
 
-  function renderTable() {
-    const tableBody = document.getElementById('levelTable');
-    let tableHTML = ''; // Initialize an empty string to store all the HTML
+  /**
+ * Renders the level table based on the sorted levels array.
+ */
+function renderTable() {
+  const tableBody = document.getElementById('levelTable');
+  const levelsSorted = getSortedLevels(); // Extract sorting logic
+  const tableRows = levelsSorted.map(getTableRowHTML); // Use map to create an array of table rows
 
-    // Sort the levels array by rank
-    levels.sort((a, b) => a.rank - b.rank);
-
-    levels.forEach(level => {
-      tableHTML += `
-        <tr>
-          <td class="video">
-            <div class="video-container">
-              <img src="https://i.ytimg.com/vi/${level.videoId}/mqdefault.jpg" alt="Video thumbnail" class="video-thumbnail">
-              <button class="yt-button" onclick="window.open('https://www.youtube.com/watch?v=${level.videoId}', '_blank')"></button>
-            </div>
-          </td>
-          <td>
-            <button class="info" style="background-color: transparent; border: none; padding: 6px; cursor: pointer; width: 100%; text-align: left; color: #ffffff;" onclick="showFullInfo('${level.videoId}')">
-              <strong>${level.rank}. ${level.name}</strong> by ${level.creator} <br>
-              First submission by: ${level.completedBy}
-            </button>
-          </td>
-        </tr>
-      `;
-    });
-
-    // Set the innerHTML once, after the loop
-    tableBody.innerHTML = tableHTML;
+  // Set the innerHTML once, after the loop
+  tableBody.innerHTML = tableRows.join('');
 }
-  
+
+/**
+ * Returns the sorted levels array.
+ * @returns {Object[]} The sorted levels array.
+ */
+function getSortedLevels() {
+  return levels.sort((a, b) => a.rank - b.rank);
+}
+
+/**
+ * Returns the HTML for a single table row.
+ * @param {Object} level The level object.
+ * @returns {string} The HTML for the table row.
+ */
+function getTableRowHTML(level) {
+  const videoThumbnailUrl = `https://i.ytimg.com/vi/${level.videoId}/mqdefault.jpg`;
+  const videoLinkUrl = `https://www.youtube.com/watch?v=${level.videoId}`;
+
+  return `
+    <tr>
+      <td class="video">
+        <div class="video-container">
+          <img src="${videoThumbnailUrl}" alt="Video thumbnail" class="video-thumbnail">
+          <button class="yt-button" onclick="window.open('${videoLinkUrl}', '_blank')"></button>
+        </div>
+      </td>
+      <td>
+        <button class="info" onclick="showFullInfo('${level.videoId}')">
+          <strong>${level.rank}. ${level.name}</strong> by ${level.creator} <br>
+          First submission by: ${level.completedBy}
+        </button>
+      </td>
+    </tr>
+  `;
+}
 
 function showEmbed(videoId, containerId) {
   const container = document.getElementById(containerId);
