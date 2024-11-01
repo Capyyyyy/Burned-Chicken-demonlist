@@ -13,7 +13,7 @@ body {
 /*header*/
 
 header {
-    position:fixed;
+    position: fixed;
     top: 0;
     right: -2px;
     width: 101%;
@@ -32,7 +32,7 @@ header h1 {
 
 
 header .container {
-    margin: auto;
+    margin: 0 auto;
     padding: 10px 20px;
     display: flex;
     justify-content: space-between;
@@ -58,6 +58,8 @@ header nav ul li a:hover {
     text-decoration: none;
     transition: color 0.3s ease;
 }
+
+
 
 /* thumbnail and button*/
 
@@ -89,6 +91,12 @@ header nav ul li a:hover {
     fill: #FFFFFF;
 }
 
+.video-container {
+    width: 90%;
+    height: auto;
+}
+
+
 main {
     margin: 20px;
     width: 90%;
@@ -96,6 +104,7 @@ main {
 
 
 table {
+    margin-top: 52px;
     width: 100%;
     font-size: 14px;
     text-align: left;
@@ -110,11 +119,13 @@ td, th {
 }
 
 .info {
+  display: flex;
+  flex-direction: column;
   cursor: pointer;
-  padding: 22px;
+  padding-left: 4px;
   font-size: 14px;
   text-align: left;
-  width: 80%;
+  width: 96%;
   border: none;
   border-radius: 5px;
   transition: background-color 0.3s ease;
@@ -130,6 +141,18 @@ td:last-child {
     border-top-right-radius: 10px;   /* Top-right corner */
     border-bottom-right-radius: 10px; /* Bottom-right corner */
 }
+
+
+
+.name{
+    flex-direction:row;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: left;
+}
+
+
+
 
 
 

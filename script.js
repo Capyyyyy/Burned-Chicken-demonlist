@@ -71,13 +71,16 @@ function getTableRowHTML(level) {
     <tr>
       <td class="video">
         <div class="video-container">
-          <img src="${videoThumbnailUrl}" alt="Video thumbnail" class="video-thumbnail">
+          <a href="${videoLinkUrl}" target="_blank">
+            <img src="${videoThumbnailUrl}" alt="Video thumbnail" class="video-thumbnail">
+          </a>
           <button class="yt-button" onclick="window.open('${videoLinkUrl}', '_blank')"></button>
         </div>
       </td>
       <td>
         <button class="info" onclick="showFullInfo('${level.videoId}')">
-          <strong>${level.rank}. ${level.name}</strong> by ${level.creator} <br>
+          <span class="name">#${level.rank} - ${level.name}</span>
+          <br>
           First submission by: ${level.completedBy}
         </button>
       </td>
