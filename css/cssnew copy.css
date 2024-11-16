@@ -1,0 +1,205 @@
+body {
+    font-family: sans-serif;
+    color: white;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-position: center;
+    background-size: cover;
+    background-image: url('http://ts4.mm.bing.net/th?id=OIP.VjACp6gibq1MgnyX9s3ySwHaEK&pid=15.1');
+    
+}
+
+
+/*header*/
+
+header {
+    position: fixed;
+    top: 0;
+    right: -2px;
+    width: 101%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1.5px);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+
+header .container {
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+header nav ul li a:hover {
+    color: #909090;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+
+
+/* thumbnail and button*/
+
+
+.video-thumbnail {
+    aspect-ratio: 16/9;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.yt-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url('ytbutton.png');
+    background-size: cover;
+    width: 50px; 
+    height: 50px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+}
+
+.yt-button svg {
+    width: 36px;
+    height: 36px;
+    fill: #FFFFFF;
+}
+
+.video-container {
+    width: 90%;
+    height: auto;
+}
+
+
+main {
+    margin: 20px;
+    width: 90%;
+}
+
+
+table {
+    margin-top: 52px;
+    width: 100%;
+    font-size: 14px;
+    text-align: left;
+    background-color: none;
+    border-spacing: 0 20px; /* Adjust vertical spacing */
+}
+
+td, th {
+    backdrop-filter: blur(1.5px);
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 1px;    
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  padding-left: 4px;
+  font-size: 14px;
+  text-align: left;
+  width: 96%;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+
+.video {
+    border-top-left-radius: 10px;   
+    border-bottom-left-radius: 10px;
+}
+
+td:last-child {
+    border-top-right-radius: 10px;   /* Top-right corner */
+    border-bottom-right-radius: 10px; /* Bottom-right corner */
+}
+
+
+
+.name{
+    flex-direction:row;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: left;
+}
+
+
+
+
+
+
+iframe {
+    width: 512px;
+    height: 256px;
+}
+
+
+
+tbody tr {
+    transition: transform 0.3s ease; /* Ensure transition is applied to the non-hover state */
+}
+
+tbody tr:hover {
+    background-color: #44444433;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    transform: scale(1.05);
+}
+
+button.info {
+    background-color: transparent;
+}
+
+.full-info {
+    animation: none;
+    transition: none;
+    margin-top: 70px;
+    /* Add other styles to override the renderTable styles */
+  }
+
+  .full-info:hover {
+    transform: none;
+  }
+  .back-button {
+    background-image: url('/icons/backarrow.png');
+    background-size: cover;
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: 50px;
+    left: 10px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1;
+    color: #ffffff;
+  }
+
+  

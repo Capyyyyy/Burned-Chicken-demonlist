@@ -8,6 +8,29 @@ hamburger.addEventListener('click', () => {
 });
 
 
+const dropdownContent = document.querySelector('.dropdown-content');
+const cssFiles = ['cssnew.css', 'cssnew copy.css']; // add more files as needed
+
+// Create a list of links for the dropdown
+cssFiles.forEach(file => {
+  const link = document.createElement('a');
+  link.href = '#';
+  link.textContent = file;
+  link.onclick = () => {
+    changeCss(file);
+  };
+  const listItem = document.createElement('li');
+  listItem.appendChild(link);
+  dropdownContent.appendChild(listItem);
+});
+
+// Update the changeCss function to accept a file name
+function changeCss(file) {
+  var link = document.querySelector("link[rel='stylesheet']");
+  link.href = `css/${file}`;
+}
+
+
 
 
 // old data for the website not needed for now
