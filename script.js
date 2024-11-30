@@ -1,12 +1,18 @@
-
 const hamburger = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
 
-hamburger.addEventListener('click', () => {
-  console.log('Hamburger button clicked!');
-  nav.classList.toggle('show');
-});
 
+hamburger.addEventListener('click', () => {
+  if (nav.classList.contains('show')) {
+    nav.classList.add('hide');
+    setTimeout(() => {
+      nav.classList.remove('show');
+    }, 300);
+  } else {
+    nav.classList.add('show');
+    nav.classList.remove('hide');
+  }
+});
 
 const dropdownContent = document.querySelector('.dropdown-content');
 const cssFiles = ['cssnew.css', 'cssnew copy.css']; // add more files as needed
@@ -34,7 +40,7 @@ function changeCss(file) {
 
 
 // old data for the website not needed for now
-const levelsold = [
+const levelsolds = [
     { rank: 1, level: "Tidal Wave", creator: "OniLink", completedBy: "Zoink", videoId: "9fsZ014qB3s" },
     { rank: 2, level: "Untitled", creator: "iiLuna", completedBy: "Phát Võ", videoId: "JdkvhuCW3CQ" },
     { rank: 3, level: "Bloodbath", creator: "Riot", completedBy: "Frisk", videoId: "9bZkp7q19f0" },
