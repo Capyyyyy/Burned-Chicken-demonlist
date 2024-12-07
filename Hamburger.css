@@ -1,11 +1,13 @@
+/* Hamburger.css */
+
+
 #hamburger {
-  display: none !important;
+  display: none;
 }
 
 @media only screen and (max-width: 768px) {
 
     table {
-
       font-size: 14px;
     }
 
@@ -20,7 +22,7 @@
       cursor: pointer;
       width: 30px;
       height: 30px;
-      font-size: 18px;
+      font-size: 9px;
       text-align: center;
       transition: all 0.3s ease-in-out;
       background-color: transparent;
@@ -45,29 +47,125 @@
       z-index: -1;
     }
     
-    #nav.show {
-      display: block;
+    #nav li{
+      display: inline-block;
+    }
+
+
+
+
+
+
+    #nav {
+      display: block; /* Keep it in the DOM for smoother rendering */
       position: absolute;
       top: 100%;
       right: 0;
       width: 200px;
-      background-color: transparent;
       padding: 10px 0;
-      animation: slideDown 0.3s ease-in-out;
-      backdrop-filter: blur(1.5px);
+      background-color: rgba(0, 0, 0, 0.658);
+      backdrop-filter: blur(10px);
+      border-radius: 10px; /* Rounded dropdown corners */
+      opacity: 0; /* Start invisible */
+      transform: translateY(-20px); /* Slide-in from just above the header */
+      pointer-events: none; /* Prevent interaction when hidden */
+      transition: 
+          opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), /* Smooth fade-in */
+          transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth slide-in */
+      z-index: 1000;
+      
+  }
+  
+    #nav.show {
+        opacity: 1; /* Fade in */
+        transform: translateY(0); /* Slide down into view */
+        pointer-events: auto; /* Enable interaction */
+        background-color: rgba(0, 0, 0, 0.658);
+        backdrop-filter: blur(10px);
     }
+    
+    #nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column; /* Stacked items */
+        gap: 10px;
+        background-color: rgba(0, 0, 0, 0.658);
+        backdrop-filter: blur(10px);
+    }
+    
+    #nav li {
+        opacity: 0; /* Items start invisible for cascading effect */
+        transform: translateY(-10px); /* Slight lift for staggered motion */
+        animation: navItemSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    #nav.show li:nth-child(1) {
+        animation-delay: 0.1s; /* Slight delay for stagger effect */
+    }
+    #nav.show li:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    #nav.show li:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+    /* Add more delays if more list items */
+    
+    @keyframes navItemSlideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+  
+
     
     #nav.hide {
-      display: block;
-      position: absolute;
-      top: 100%;
-      right: 0;
-      width: 200px;
-      background-color: transparent;
-      padding: 10px 0;
-      animation: slideUp 0.3s ease-in-out forwards;
+      opacity: 0; /* Fade out smoothly */
+      transform: translateY(-20px); /* Slide up gently into the header */
+      pointer-events: none; /* Disable interaction */
+      visibility: hidden; /* Ensure it fully "disappears" after animation */
+      right: 0; /* Fix alignment */
+      transition: 
+          opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+          transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+          visibility 0s 0.4s; /* Delay hiding until fade completes */
+  }
+  
+  #nav.hide li {
+      opacity: 0; /* Fade out individual items */
+      transform: translateY(-10px); /* Lift upward slightly */
+      animation: navItemSlideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      position: relative; /* Prevent unexpected placement issues */
+      overflow: hidden; /* Avoid extra elements spilling out */
+  }
+
+  
+  
+  @keyframes navItemSlideOut {
+    from {
+      transform: translateY(0);
+      opacity: 1;
     }
+    to {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+  }
+  
+  
     
+
+
+
+
+
+
     #nav.show ul {
       list-style: none;
       padding: 0;
@@ -76,33 +174,9 @@
     }
     
     #nav.show li {
-      padding: 10px;
-      border: solid 1px;
+      padding: 15px;
     }
     
-    @keyframes slideDown {
-      0% {
-        transform: translateY(-100%);
-      }
-      100% {
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes slideUp {
-      0% {
-        transform: translateY(0);
-        opacity: 1;
-        visibility: visible;
-      }
-      100% {
-        transform: translateY(-100%);
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-
 
 
 

@@ -1,20 +1,20 @@
 const hamburger = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
 
-
 hamburger.addEventListener('click', () => {
-  if (nav.classList.contains('show')) {
-    nav.classList.add('hide');
-    setTimeout(() => {
-      nav.classList.remove('show');
-    }, 300);
-  } else {
-    nav.classList.add('show');
-    nav.classList.remove('hide');
-  }
+    if (nav.classList.contains('show')) {
+        nav.classList.remove('show');
+        nav.classList.add('hide');
+    } else {
+        nav.classList.remove('hide');
+        nav.classList.add('show');
+    }
 });
 
-const dropdownContent = document.querySelector('.dropdown-content');
+
+/* CSS CHANGER WIP /*
+
+/* const dropdownContent = document.querySelector('.dropdown-content');
 const cssFiles = ['cssnew.css', 'cssnew copy.css']; // add more files as needed
 
 // Create a list of links for the dropdown
@@ -35,6 +35,7 @@ function changeCss(file) {
   var link = document.querySelector("link[rel='stylesheet']");
   link.href = `css/${file}`;
 }
+*/
 
 
 
@@ -110,7 +111,7 @@ function getTableRowHTML(level) {
         <button class="info" onclick="showFullInfo('${level.videoId}')">
           <span class="name">#${level.rank} - ${level.name}</span>
           <br>
-          First submission by: ${level.completedBy}
+          <span class="completedBy">${level.completedBy}</span>
         </button>
       </td>
     </tr>
@@ -128,35 +129,47 @@ function showEmbed(videoId, containerId) {
   `;
   container.innerHTML = iframe;
 }
-  
+
 function showFullInfo(videoId) {
-  const tableBody = document.getElementById('levelTable');
-  tableBody.innerHTML = '';
   const level = levels.find(level => level.videoId === videoId);
-
   if (level) {
-    const fullInfoHTML = `
-      <tr class="full-info">
-        <td colspan="2" class="full-info">
-          <button class="back-button" onclick="renderTable()">
-            &#8592;
-          </button>
-          <div class="level-info">
-            <h2>${level.rank}. ${level.name}</h2>
-            <div class="level-details">
-              <p><strong>Creator:</strong> ${level.creator}</p>
-              <p><strong>First Victor:</strong> ${level.completedBy}</p>
-            </div>
-          </div>
-          <div id="embed-container"></div>
-        </td>
-      </tr>
-    `;
+    // Use the level object to display the full info
+    const table = document.getElementById('levelTable');
+    const fullInfoContainer = document.getElementById('full-info-container');
+    
+    // Hide the table
+    table.style.display = 'none';
 
-    tableBody.innerHTML = fullInfoHTML;
-    showEmbed(videoId, 'embed-container');
+    // Get the data for the specific level
+    const levelData = `
+        <div class="full-info">
+            <button onclick="hideFullInfo()" class="back-button"></button>
+            <h2 class="fullinfoh2"> #${level.rank} - ${level.name}</h2> 
+            <div id="embed-container"></div>
+            <!-- Your level-specific content here -->
+     
+        </div>
+    `;
+    
+    fullInfoContainer.innerHTML = levelData; // Inject the level data dynamically
+
+    // Show the embed
+    const embedContainer = document.getElementById('embed-container');
+    showEmbed(videoId, 'embed-container'); 
+    // Show the full info container
+    fullInfoContainer.style.display = 'block';
   }
 }
+
+function hideFullInfo() {
+  // Hide the full info container
+  document.getElementById('full-info-container').style.display = 'none';
+
+  // Show the table again
+  document.getElementById('levelTable').style.display = 'block';
+}
+
+
 
 
 // Initial table render

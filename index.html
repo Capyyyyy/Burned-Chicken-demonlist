@@ -24,12 +24,13 @@
           </button>
           <nav id="nav">
             <ul>
-              <li><a href="#" onclick="renderTable()">Main List</a></li>
+              <li><a href="#" onclick="document.getElementById('levelTable').style.display = 'block'; document.getElementById('levelTable').classList.remove('show'); document.getElementById('levelTable').classList.add('hide');">Main List</a></li>
               <li><a href="#">Extended List</a></li>
               <li><a href="https://discord.gg/9qwtk8nJKP" target="_blank">Submit Completion</a></li>
-              <li>
+              <!-- /* CSS CHANGER WIP /* -->
+              <!-- <li>
                 <button class="dropdown-btn">Change CSS</button>
-                <ul class="dropdown-content">
+                <ul class="dropdown-content"> -->
                   <!-- CSS file list will be populated here -->
                 </ul>
               </li>
@@ -39,15 +40,18 @@
       </header>
 
 
-    <main>
+      <main>
         <section class="level-list">
             <table>
                 <tbody id="levelTable">
-                    <!-- Data will be populated by script.js -->
+                    <!-- Data will be populated dynamically -->
                 </tbody>
             </table>
         </section>
+        <div id="full-info-container" class="full-info-container" style="display: none;"></div>
     </main>
+    
+    
 
     <script src="script.js"></script>
 </body>

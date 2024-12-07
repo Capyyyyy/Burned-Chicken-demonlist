@@ -1,3 +1,4 @@
+/* Base styles */
 body {
     font-family: sans-serif;
     color: white;
@@ -8,15 +9,14 @@ body {
     background-image: url("themes/default_cubes/background.png") 
 }
 
-/*header*/
-
+/* Header styles */
 header {
     position: fixed;
     top: 0;
     right: -2px;
     width: 101%;
     background-color: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
+    z-index: 20;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(1.5px);
 }
@@ -26,8 +26,6 @@ header h1 {
     font-size: 18px;
     font-weight: bold;
 }
-
-
 
 header .container {
     margin: 0 auto;
@@ -46,24 +44,24 @@ header nav ul {
 }
 
 header nav ul li a {
+    transform: scale(1.0);
     color: #ffffff;
     text-decoration: none;
     font-weight: bold;
 }
 
 header nav ul li a:hover {
-    color: #909090;
+    color: #ffffff;
     text-decoration: none;
     transition: color 0.3s ease;
+    transform: scale(2.1);
 }
 
-
-/* css picker styles */
-
-.dropdown-btn {
+/* CSS CHANGER WIP /*
+/* .dropdown-btn {
     background-color: #4CAF50;
     color: #fff;
-    padding: 5px 10px;
+    padding: px 10px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -93,12 +91,9 @@ header nav ul li a:hover {
   
   .dropdown-content:hover {
     display: block;
-  }
+  } */
 
-
-/* thumbnail and button*/
-
-
+/* Video and thumbnail styles */
 .video-thumbnail {
     aspect-ratio: 16/9;
     width: 100%;
@@ -131,71 +126,29 @@ header nav ul li a:hover {
     height: auto;
 }
 
-
-
-/*table styles*/
-
+/* Table styles */
 table {
-    margin-top: 52px;
+    margin-top: 60px;
     width: 100%;
     font-size: 14px;
     text-align: left;
-    background-color: none;
-    border-spacing: 0 20px; /* Adjust vertical spacing */
+    background-color: transparent;
+    border-spacing: 0 25px;
+    padding-left: 20px;
+    padding-right: 20px;
+    max-width: 600px;
+    display: flex;
+    justify-content: center;
 }
 
 td, th {
     backdrop-filter: blur(1.5px);
     background-color: rgba(255, 255, 255, 0.1);    
+    color: white !important;
 }
-
-.info {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  padding-left: 4px;
-  font-size: 14px;
-  text-align: left;
-  width: 96%;
-  border: none;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
-}
-
-
-.video {
-    border-top-left-radius: 10px;   
-    border-bottom-left-radius: 10px;
-}
-
-td:last-child {
-    border-top-right-radius: 10px;   /* Top-right corner */
-    border-bottom-right-radius: 10px; /* Bottom-right corner */
-}
-
-
-
-.name{
-    flex-direction:row;
-    font-weight: bold;
-    font-size: 16px;
-    text-align: left;
-}
-
-
-
-
-
-
-iframe {
-    width: 512px;
-    height: 256px;
-}
-
-
 
 tbody tr {
-    transition: transform 0.3s ease; /* Ensure transition is applied to the non-hover state */
+    transition: transform 0.3s ease;
 }
 
 tbody tr:hover {
@@ -204,33 +157,156 @@ tbody tr:hover {
     transform: scale(1.05);
 }
 
-button.info {
+.video {
+    border-top-left-radius: 10px;   
+    border-bottom-left-radius: 10px;
+    margin: 5px;
+}
+
+td:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+/* Info button styles */
+.info {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding-left: 4px;
+    font-size: 14px;
+    text-align: left;
+    width: 96%;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    color: rgb(230, 230, 230);
     background-color: transparent;
 }
 
-.full-info {
-    animation: none;
-    transition: none;
-    margin-top: 70px;
-    /* Add other styles to override the renderTable styles */
-  }
+/* Name and completion styles */
+.name {
+    flex-direction: row;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: left;
+}
 
-  .full-info:hover {
-    transform: none;
-  }
-  .back-button {
+span.completedBy {
+    color: rgb(196, 196, 196);
+}
+
+span.name {
+    font-weight: bold;
+    margin-bottom: 0;
+}
+
+/* Full info view styles */
+.full-info-container {
+    margin-top: 70px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(25, 25, 25, 0.9);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.full-info-container .rank-name {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.full-info-container .rank {
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+}
+
+.full-info-container .level-name {
+    font-size: 32px;
+    color: white;
+}
+
+.full-info-container .video-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.full-info-container .level-details {
+    width: 100%;
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    text-align: center;
+}
+
+.full-info-container .detail-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+}
+
+
+.fullinfoh2 {
+    text-align: center;
+}
+
+#embed-container {
+    border-radius: 10px;
+}
+
+#embed-container iframe {
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.full-info #embed-container iframe {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16/9; /* adjust this to the desired aspect ratio */
+    object-fit: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+}
+
+
+
+/* Back button */
+.back-button {
     background-image: url('icons/backarrow.png');
     background-size: cover;
     width: 50px;
     height: 50px;
     position: absolute;
-    top: 50px;
     left: 10px;
     border: none;
     padding: 10px;
     cursor: pointer;
     z-index: 1;
-    color: #ffffff;
-  }
+    top: 16px;
+    background-color: transparent;
+}
 
-  
+/* iframe default size */
+iframe {
+    width: 512px;
+    height: 256px;
+}
