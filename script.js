@@ -1,5 +1,7 @@
 const hamburger = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
+const fullInfoContainer = document.querySelector('.full-info-container');
+
 
 hamburger.addEventListener('click', () => {
     if (nav.classList.contains('show')) {
@@ -10,6 +12,53 @@ hamburger.addEventListener('click', () => {
         nav.classList.add('show');
     }
 });
+
+var footer = document.getElementById('footer');
+if (footer) {
+  footer.classList.add('footer-hidden');
+}
+
+
+
+// Get the elements
+const submitButton = document.getElementById('submit-completion');
+const mainListLink = document.getElementById('main-list');
+const boxElement = document.querySelector('.box');
+const tableElement = document.querySelector('table');
+
+boxElement.style.display = 'none';
+
+submitButton.addEventListener('click', () => {
+  if (boxElement.classList.contains('show')) {
+    boxElement.classList.remove('show');
+    boxElement.classList.add('hide');
+    tableElement.classList.remove('fade-out');
+  } else {
+      hideFullInfo()
+      boxElement.classList.remove('hide');
+      boxElement.classList.add('show');
+      tableElement.classList.add('fade-out');
+      boxElement.style.display = 'block';
+  }
+});
+
+mainListLink.addEventListener('click', () => {
+  boxElement.classList.remove('show');
+  boxElement.classList.add('hide');
+  tableElement.classList.remove('fade-out');
+
+  // Delay setting `display: none` until after the animation completes
+  setTimeout(() => {
+    boxElement.style.display = 'none';
+  }, 500); // Match the duration of the fadeOut animation (0.5s)
+});
+
+
+
+
+
+
+
 
 
 /* CSS CHANGER WIP /*
@@ -57,7 +106,7 @@ const levelsolds = [
 
 let levels = []; // Initialize the levels variable as an empty array
 
-fetch('http://localhost:3000/levels')
+fetch('https://bcdbackend.onrender.com/levels')
   .then(response => {
     console.log('Fetch call made successfully');
     return response.json();
@@ -102,14 +151,14 @@ function getTableRowHTML(level) {
       <td class="video">
         <div class="video-container">
           <a href="${videoLinkUrl}" target="_blank">
-            <img src="${videoThumbnailUrl}" alt="Video thumbnail" class="video-thumbnail">
+            <img src="${videoThumbnailUrl}" class="video-thumbnail">
           </a>
           <button class="yt-button" onclick="window.open('${videoLinkUrl}', '_blank')"></button>
         </div>
       </td>
       <td>
         <button class="info" onclick="showFullInfo('${level.videoId}')">
-          <span class="name">#${level.rank} - ${level.name}</span>
+          <h1 class="name">#${level.rank} - ${level.name}</h1>
           <br>
           <span class="completedBy">${level.completedBy}</span>
         </button>
@@ -122,20 +171,26 @@ function showEmbed(videoId, containerId) {
   const container = document.getElementById(containerId);
   const iframe = `
     <iframe
-      src="https://www.youtube-nocookie.com/embed/${videoId}"
+      src="https://www.youtube.com/embed/${videoId}"
       frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
       allowfullscreen
+      style="width: 100%; height: 100%;"
     ></iframe>
   `;
   container.innerHTML = iframe;
 }
 
+
 function showFullInfo(videoId) {
+  document.getElementById('footer').style.display = 'none';
+  fullInfoContainer.classList.add('show-full-info');
+  console.log('showFullInfo called with videoId:', videoId);
+  // document.getElementById('side-boxes').style.display = 'none';
   const level = levels.find(level => level.videoId === videoId);
   if (level) {
     // Use the level object to display the full info
     const table = document.getElementById('levelTable');
-    const fullInfoContainer = document.getElementById('full-info-container');
     
     // Hide the table
     table.style.display = 'none';
@@ -145,6 +200,7 @@ function showFullInfo(videoId) {
         <div class="full-info">
             <button onclick="hideFullInfo()" class="back-button"></button>
             <h2 class="fullinfoh2"> #${level.rank} - ${level.name}</h2> 
+            <h4 class="fullinfoh4">Beaten by <span class="fullcompletedby">${level.completedBy}</span>, published by: <span class="fullcreated">${level.creator}</span></h4>
             <div id="embed-container"></div>
             <!-- Your level-specific content here -->
      
@@ -157,17 +213,21 @@ function showFullInfo(videoId) {
     const embedContainer = document.getElementById('embed-container');
     showEmbed(videoId, 'embed-container'); 
     // Show the full info container
+
     fullInfoContainer.style.display = 'block';
   }
 }
 
-function hideFullInfo() {
-  // Hide the full info container
-  document.getElementById('full-info-container').style.display = 'none';
 
+function hideFullInfo() {
+  // document.getElementById('side-boxes').style.display = 'flex';
+  document.getElementById('full-info-container').style.display = 'none';
   // Show the table again
   document.getElementById('levelTable').style.display = 'block';
+  document.getElementById('footer').style.display = 'block';
+  fullInfoContainer.classList.remove('show-full-info');
 }
+
 
 
 

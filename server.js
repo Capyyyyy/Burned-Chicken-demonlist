@@ -3,60 +3,48 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
-app.use(cors());
-
-const port = 3000;
 const fs = require('fs');
 const { Pool } = require('pg');
 
-const config = JSON.parse(fs.readFileSync('config.json'));
+// Middleware setup
+app.use(cors());
+app.use((req, res, next) => {
+  console.log(`Request: ${req.method} ${req.url}`);
+  next();
+});
+
+// Server port
+const port = 3000;
+
+// Database configuration
+require('dotenv').config();
 
 const pool = new Pool({
-  user: config.user,
-  host: config.host,
-  database: config.database,
-  password: config.password,
-  port: config.port,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
-app.get('/', (req, res) => {
-  pool.query('SELECT * FROM levels', (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Internal server error');
-    } else {
-      res.json(result.rows);
-    }
-  });
-});
 
-app.get('/levels', (req, res) => {
+// Utility function for database queries
+const queryDatabase = async (query, res) => {
   try {
-    pool.query('SELECT * FROM levels', (err, result) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Internal server error');
-      } else {
-        res.json(result.rows);
-      }
-    });
+    const result = await pool.query(query);
+    res.json(result.rows);
   } catch (err) {
     console.error(err);
     res.status(500).send('Internal server error');
   }
-});
+};
+
+// API endpoints
+app.get('/', (req, res) => queryDatabase('SELECT * FROM levels', res));
+
+app.get('/levels', (req, res) => queryDatabase('SELECT * FROM levels', res));
+
+// Start the server
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
-
-app.use((req, res, next) => {
-  console.log(res.getHeaders());
-  next();
-});
-
-
-
-
-
-

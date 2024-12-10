@@ -5,11 +5,56 @@
   display: none;
 }
 
+
+@media only screen and (max-width:1355px) {
+
+  table {
+    margin: 60px auto 0 69px;
+  }
+
+  .side-boxes {
+    display: none;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .info-box {
+    display: none;
+  }
+
+  .text-of-box {
+    display: none;
+  }
+}
+
+
+@media only screen and (max-width: 1100px){
+  header nav ul li a{
+    margin: auto;
+    font-size: 18px;
+  }
+}
+
 @media only screen and (max-width: 768px) {
 
     table {
       font-size: 14px;
+      margin: 30px auto 0;
     }
+
+    header {
+      position: fixed;
+      top: 0;
+      right: -2px;
+      width: 101%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 20;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(1.5px);
+      margin-bottom: 0px;
+  }
 
 
     /* Hamburger Menu Styles */
@@ -84,6 +129,10 @@
         backdrop-filter: blur(10px);
     }
     
+    #nav.show li {
+      padding: 15px;
+    }
+
     #nav ul {
         list-style: none;
         padding: 0;
@@ -112,25 +161,13 @@
     }
     /* Add more delays if more list items */
     
-    @keyframes navItemSlideIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-  
-
-    
     #nav.hide {
       opacity: 0; /* Fade out smoothly */
       transform: translateY(-20px); /* Slide up gently into the header */
       pointer-events: none; /* Disable interaction */
       visibility: hidden; /* Ensure it fully "disappears" after animation */
-      right: 0; /* Fix alignment */
+      right: 2; /* Fix alignment */
+      width: 200px;
       transition: 
           opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
           transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
@@ -138,14 +175,27 @@
   }
   
   #nav.hide li {
+    padding: 15px;
       opacity: 0; /* Fade out individual items */
-      transform: translateY(-10px); /* Lift upward slightly */
       animation: navItemSlideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
       position: relative; /* Prevent unexpected placement issues */
       overflow: hidden; /* Avoid extra elements spilling out */
+
   }
 
-  
+
+
+  @keyframes navItemSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
   
   @keyframes navItemSlideOut {
     from {
@@ -157,29 +207,6 @@
       opacity: 0;
     }
   }
-  
-  
-    
-
-
-
-
-
-
-    #nav.show ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      flex-direction: column;
-    }
-    
-    #nav.show li {
-      padding: 15px;
-    }
-    
-
-
-
 
 }
 
