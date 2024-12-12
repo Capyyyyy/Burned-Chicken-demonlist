@@ -29,16 +29,20 @@ const tableElement = document.querySelector('table');
 boxElement.style.display = 'none';
 
 submitButton.addEventListener('click', () => {
+  console.log('Submit Completion button clicked');
   if (boxElement.classList.contains('show')) {
     boxElement.classList.remove('show');
     boxElement.classList.add('hide');
     tableElement.classList.remove('fade-out');
+    setTimeout(() => {
+      boxElement.style.display = 'none';
+      renderTable();
+    }, 500); // Match the duration of the fadeOut animation (0.5s)
   } else {
-      hideFullInfo()
-      boxElement.classList.remove('hide');
-      boxElement.classList.add('show');
-      tableElement.classList.add('fade-out');
-      boxElement.style.display = 'block';
+    boxElement.classList.remove('hide');
+    boxElement.classList.add('show');
+    tableElement.classList.add('fade-out');
+    boxElement.style.display = 'block';
   }
 });
 
@@ -50,9 +54,9 @@ mainListLink.addEventListener('click', () => {
   // Delay setting `display: none` until after the animation completes
   setTimeout(() => {
     boxElement.style.display = 'none';
+    renderTable();
   }, 500); // Match the duration of the fadeOut animation (0.5s)
 });
-
 
 
 
@@ -120,14 +124,32 @@ fetch('https://bcdbackend.onrender.com/levels')
   /**
  * Renders the level table based on the sorted levels array.
  */
-function renderTable() {
-  const tableBody = document.getElementById('levelTable');
-  const levelsSorted = getSortedLevels(); // Extract sorting logic
-  const tableRows = levelsSorted.map(getTableRowHTML); // Use map to create an array of table rows
-
-  // Set the innerHTML once, after the loop
-  tableBody.innerHTML = tableRows.join('');
-}
+  function renderTable() {
+    const tableBody = document.getElementById('levelTable');
+    const levelsSorted = getSortedLevels();
+    const tableRows = levelsSorted.map(getTableRowHTML);
+  
+    // Set the innerHTML once, after the loop
+    tableBody.innerHTML = tableRows.join('');
+  
+    // Force a reflow to ensure the table is properly sized
+    void tableElement.offsetHeight;
+  
+    // Ensure the table is visible and not squished
+    tableElement.style.display = '';
+    tableElement.style.width = '100%';
+    tableElement.style.visibility = 'visible';
+  }
+  
+  // Add this new function to handle table visibility
+  function toggleTableVisibility(visible) {
+    if (visible) {
+      tableElement.style.display = '';
+      tableElement.style.visibility = 'visible';
+    } else {
+      tableElement.style.visibility = 'hidden';
+    }
+  }
 
 /**
  * Returns the sorted levels array.
@@ -186,6 +208,7 @@ function showFullInfo(videoId) {
   document.getElementById('footer').style.display = 'none';
   fullInfoContainer.classList.add('show-full-info');
   console.log('showFullInfo called with videoId:', videoId);
+  toggleTableVisibility(false);
   // document.getElementById('side-boxes').style.display = 'none';
   const level = levels.find(level => level.videoId === videoId);
   if (level) {
@@ -223,6 +246,8 @@ function hideFullInfo() {
   // document.getElementById('side-boxes').style.display = 'flex';
   document.getElementById('full-info-container').style.display = 'none';
   // Show the table again
+  toggleTableVisibility(true);
+  renderTable();
   document.getElementById('levelTable').style.display = 'block';
   document.getElementById('footer').style.display = 'block';
   fullInfoContainer.classList.remove('show-full-info');
