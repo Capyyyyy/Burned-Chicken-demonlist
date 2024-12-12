@@ -655,3 +655,249 @@ button:active,
 .info:active {
     background-color: rgba(255, 255, 255, 0.2);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* HAMBURGER.CSS */
+
+
+
+/* Hamburger.css */
+
+
+#hamburger {
+  display: none;
+}
+
+
+@media only screen and (max-width:1355px) {
+
+  table {
+    margin: 60px auto 0 69px;
+  }
+
+  .side-boxes {
+    display: none;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .info-box {
+    display: none;
+  }
+
+  .text-of-box {
+    display: none;
+  }
+}
+
+
+@media only screen and (max-width: 1100px){
+  header nav ul li a{
+    margin: auto;
+    font-size: 18px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+
+    table {
+      font-size: 14px;
+      margin: 30px auto 0;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      right: -2px;
+      width: 101%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 20;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(1.5px);
+      margin-bottom: 0px;
+  }
+
+
+    /* Hamburger Menu Styles */
+    #hamburger {
+      display: block;
+      background-color: transparent;
+      color: #fff;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      font-size: 9px;
+      text-align: center;
+      transition: all 0.3s ease-in-out;
+      background-color: transparent;
+      border: black;
+    }
+    
+    #hamburger:hover {
+      transform: scale(1.1);
+    }
+    
+    #hamburger .bar {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: #ffffff;
+      margin: 3px 0;
+      backdrop-filter: blur(1.5px);
+    }
+    
+    #nav {
+      display: none;
+      z-index: -1;
+    }
+    
+    #nav li{
+      display: inline-block;
+    }
+
+
+
+
+
+
+    #nav {
+      display: block; /* Keep it in the DOM for smoother rendering */
+      position: absolute;
+      top: 100%;
+      right: 0;
+      width: 200px;
+      padding: 10px 0;
+      background-color: rgba(0, 0, 0, 0.658);
+      backdrop-filter: blur(10px);
+      border-radius: 10px; /* Rounded dropdown corners */
+      opacity: 0; /* Start invisible */
+      transform: translateY(-20px); /* Slide-in from just above the header */
+      pointer-events: none; /* Prevent interaction when hidden */
+      transition: 
+          opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), /* Smooth fade-in */
+          transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth slide-in */
+      z-index: 1000;
+      font-size: 12px !important;
+  }
+  
+    #nav.show {
+        opacity: 1; /* Fade in */
+        transform: translateY(0); /* Slide down into view */
+        pointer-events: auto; /* Enable interaction */
+        background-color: rgba(0, 0, 0, 0.658);
+        backdrop-filter: blur(10px);
+    }
+    
+    #nav.show li {
+      padding: 15px;
+    }
+
+    #nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column; /* Stacked items */
+        gap: 10px;
+        background-color: rgba(0, 0, 0, 0.658);
+        backdrop-filter: blur(10px);
+    }
+    
+    #nav li {
+        opacity: 0; /* Items start invisible for cascading effect */
+        transform: translateY(-10px); /* Slight lift for staggered motion */
+        animation: navItemSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    #nav.show li:nth-child(1) {
+        animation-delay: 0.1s; /* Slight delay for stagger effect */
+    }
+    #nav.show li:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    #nav.show li:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+    /* Add more delays if more list items */
+    
+    #nav.hide {
+      opacity: 0; /* Fade out smoothly */
+      transform: translateY(-20px); /* Slide up gently into the header */
+      pointer-events: none; /* Disable interaction */
+      visibility: hidden; /* Ensure it fully "disappears" after animation */
+      right: 2; /* Fix alignment */
+      width: 200px;
+      transition: 
+          opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+          transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+          visibility 0s 0.4s; /* Delay hiding until fade completes */
+  }
+  
+  #nav.hide li {
+    padding: 15px;
+      opacity: 0; /* Fade out individual items */
+      animation: navItemSlideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+      position: relative; /* Prevent unexpected placement issues */
+      overflow: hidden; /* Avoid extra elements spilling out */
+
+  }
+
+
+
+  @keyframes navItemSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+  
+  @keyframes navItemSlideOut {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-10px);
+      opacity: 0;
+    }
+  }
+
+}
+
+
+
+
+
+
