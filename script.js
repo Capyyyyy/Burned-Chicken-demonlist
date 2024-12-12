@@ -226,6 +226,7 @@ function hideFullInfo() {
   document.getElementById('levelTable').style.display = 'block';
   document.getElementById('footer').style.display = 'block';
   fullInfoContainer.classList.remove('show-full-info');
+  renderTable();
 }
 
 
