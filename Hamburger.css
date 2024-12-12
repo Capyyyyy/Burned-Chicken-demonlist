@@ -118,7 +118,7 @@
           opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), /* Smooth fade-in */
           transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth slide-in */
       z-index: 1000;
-      
+      font-size: 12px !important;
   }
   
     #nav.show {

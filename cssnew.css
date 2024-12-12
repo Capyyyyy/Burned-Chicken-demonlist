@@ -555,3 +555,103 @@ h2{
 
 
 
+
+/* Mobile breakpoints */
+@media (max-width: 768px) {
+  header {
+    height: 50px;
+  }
+
+  header h1 {
+    font-size: 18px;
+  }
+
+  header nav ul li a {
+    font-size: 16px;
+    margin: 6px;
+  }
+
+  table {
+    margin: 80px auto 0 auto;
+    width: 95%;
+    max-width: none;
+    padding: 0;
+  }
+
+  td, th {
+    min-width: 0;
+    padding: 8px;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .video-thumbnail {
+    width: 100%;
+    transform: scale(1.2);
+  }
+
+  .name {
+    font-size: 18px;
+    line-height: 1.2;
+  }
+
+  .info {
+    width: 100%;
+    padding: 8px 4px;
+  }
+
+  .full-info-container {
+    width: 95%;
+    padding: 10px;
+  }        
+
+  iframe {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  header nav ul {
+    gap: 10px;
+  }
+
+  .name {
+    font-size: 18px;
+  }
+
+  .full-info-container .rank {
+    font-size: 32px;
+  }
+
+  .full-info-container .level-name {
+    font-size: 24px;
+  }
+}
+
+/* Replace fixed pixel values with relative units */
+body {
+    font-size: 16px;
+}
+
+.container {
+    width: 90vw;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Increase touch targets */
+button, 
+.info,
+nav ul li a {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 12px;
+}
+
+/* Add touch feedback */
+button:active,
+.info:active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
