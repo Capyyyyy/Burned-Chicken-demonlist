@@ -1,3 +1,20 @@
+// script.js
+const body = document.body;
+const highResImage = new Image();
+
+highResImage.src = 'themes/default_cubes/background.png'; // high-res version
+
+highResImage.onload = function() {
+  body.style.backgroundImage = `url(${highResImage.src})`;
+};
+
+
+
+
+
+
+
+
 const hamburger = document.getElementById('hamburger');
 const nav = document.getElementById('nav');
 const fullInfoContainer = document.querySelector('.full-info-container');
