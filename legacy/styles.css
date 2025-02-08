@@ -1,0 +1,290 @@
+/* General Styles */
+body {
+    font-family: 'Verdana', sans-serif;
+    background-image: url('backgrounds/spacebg.png'); /* replace with your image file */
+    background-size: cover; /* scale the image to cover the entire page */
+    background-position: center; /* center the image horizontally and vertically */
+    background-color: #2a2a2a; /* fallback color in case the image doesn't load */
+    color: #ffffff;
+    margin: 0;
+    padding-top: 60px; /* Add padding to avoid content being hidden by the fixed header */
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+/* Fixed Header */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* changed to semi-transparent background color */
+  color: rgb(255, 255, 255);
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+header nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li {
+    display: inline;
+}
+
+header nav ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.video-container {
+    position: relative;
+    display: inline-block;
+}
+
+.video-thumbnail {
+    aspect-ratio: 16/9;
+    width: 100%;
+    object-fit: cover;
+}
+
+.yt-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url('ytbutton.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 50px; /* Adjust the width and height as needed */
+    height: 50px;
+    cursor: pointer;
+    border: none; /* Add this to remove the border */
+    background-color: transparent; /* Add this to remove the background */
+}
+
+.yt-button svg {
+    width: 36px;
+    height: 36px;
+    fill: #FFFFFF;
+}
+
+header nav ul li a:hover {
+    color: #cfd1ff; /* or any other darker color you prefer */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+/* Main Content */
+main {
+    margin: 20px;
+    width: 90%;
+}
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    text-align: left;
+    background-color: #44444433;
+}
+
+/* Video Embed on the Left */
+td.video {
+    padding: 12px;
+    text-align: left;
+    width: 20%;
+}
+
+
+iframe {
+  width: 512px;
+  height: 256px;
+}
+
+/* Add this rule to limit the height of the thumbnail image */
+td.video img {
+  max-height: 140px;
+  width: 100%; 
+  height: auto;
+}
+
+/* Level Info on the Right */
+.info {
+  cursor: pointer;
+  padding: 12px;
+  font-size: 14px;
+  text-align: left;
+  width: 80%;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effects */
+tbody tr:hover {
+    background-color: #44444433;
+    transition: background-color 0.3s ease;
+}
+
+/* Links */
+a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.full-info {
+    padding: 20px;
+    background-color: #1a1a1a;
+    color: #ffffff;
+  }
+  
+  .back-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .level-info h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .level-details {
+    margin-bottom: 20px;
+  }
+  
+  .video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+  }
+  
+  .video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+
+
+
+
+@media only screen and (max-width: 768px) {
+    table {
+      font-size: 14px;
+    }
+    td {
+      padding: 10px;
+    }
+    td.video {
+        width:100%;
+    }
+    /* Hamburger Menu Styles */
+    #hamburger {
+        display: block;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        font-size: 18px;
+        text-align: center;
+        transition: all 0.3s ease-in-out;
+        background-color: transparent;
+        border: none;
+        padding: 0;
+    }
+    
+    #hamburger:hover {
+        transform: scale(1.1);
+    }
+    
+    #hamburger .bar {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background-color: #ffffff;
+        margin: 3px 0;
+    }
+    
+    #nav {
+    animation: slideUp 0.3s ease-in-out;
+    display: none;
+    }
+
+    #nav.show {
+        display: block !important;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 200px;
+        background-color: #333333ee;
+        padding: 10px 0;
+        animation: slideDown 0.3s ease-in-out;
+    }
+
+
+    #nav.show ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-direction: column;
+    }
+
+    #nav.show li {
+    padding: 10px;
+    }
+
+  
+      @keyframes slideDown {
+        0% {
+        transform: translateY(-100%);
+        }
+        100% {
+        transform: translateY(0);
+        }
+    }
+  
+      @keyframes slideUp {
+        0% {
+        transform: translateY(0);
+        }
+        100% {
+        transform: translateY(-100%);
+        }
+    }
+
+    }

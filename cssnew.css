@@ -14,6 +14,26 @@ body {
     padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 0;  /* Remove scrollbar space */
+  background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+/* For Firefox */
+html {
+  scrollbar-width: none; /* Firefox */
+}
+
+/* For IE/Edge */
+body {
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
 /* Header styles */
 header {
     position: fixed;
