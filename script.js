@@ -201,7 +201,30 @@ function showFullInfo(videoId) {
     // Hide the table
     table.style.display = "none";
 
-    // Fetch completions for this level using the new endpoint
+    // Island 1: Level Details - Render Immediately
+    const levelDetailsHTML = `
+        <div class="level-details-island">
+            <button onclick="hideFullInfo()" class="back-button"></button>
+            <h2 class="fullinfoh2"> #${level.rank} - ${level.name}</h2>
+            <h4 class="fullinfoh4">Beaten by <span class="fullcompletedby">${level.completedBy}</span>, published by: <span class="fullcreated">${level.creator}</span></h4>
+            <div id="embed-container"></div>
+        </div>
+    `;
+
+    // Island 2: Completions Placeholder - Render Immediately
+    const completionsPlaceholderHTML = `
+        <div class="completions-island">
+            <h3>Completions</h3>
+            <p>Loading completions...</p>
+        </div>
+    `;
+
+    // Set initial HTML with placeholder for completions
+    fullInfoContainer.innerHTML = levelDetailsHTML + completionsPlaceholderHTML;
+    showEmbed(videoId, "embed-container"); // Show main video embed
+    fullInfoContainer.style.display = "block"; // Show the container
+
+    // Fetch completions for this level using the new endpoint (asynchronously)
     fetch(`https://bcdbackend.onrender.com/api/levels/${level.levelId}/completions`)
       .then(response => {
         // Check if the response is successful
@@ -212,70 +235,59 @@ function showFullInfo(videoId) {
       })
       .then(completions => {
         console.log("Completions fetched:", completions);
+        const completionsIslandDiv = fullInfoContainer.querySelector(".completions-island");
 
-        // Format completions into HTML
-        let completionsHTML = '<h3>Completions</h3>';
-        if (completions.length > 0) {
-          completionsHTML += '<ul>';
-          completions.forEach(completion => {
-            // Format date nicely (e.g., "May 8, 2025")
-            const completionDate = new Date(completion.completion_date);
-            const formattedDate = completionDate.toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            });
-
-            completionsHTML += `
-              <li>
-                <strong>${completion.player_name}</strong> - ${formattedDate}
-                (<a href="${completion.video_url}" target="_blank">Video</a>)
-              </li>
+        if (completionsIslandDiv) {
+          // Format actual completions content (table or "no completions" message)
+          let actualCompletionsContentHTML = '';
+          if (completions.length > 0) {
+            actualCompletionsContentHTML += `
+              <table>
+                <thead>
+                  <tr>
+                    <th>Player</th>
+                    <th>Date</th>
+                    <th>Video</th>
+                  </tr>
+                </thead>
+                <tbody>
             `;
-          });
-          completionsHTML += '</ul>';
-        } else {
-          completionsHTML += '<p>No completions recorded yet.</p>';
+            completions.forEach(completion => {
+              const completionDate = new Date(completion.completion_date);
+              const formattedDate = completionDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              });
+              actualCompletionsContentHTML += `
+                <tr>
+                  <td><strong>${completion.player_name}</strong></td>
+                  <td>${formattedDate}</td>
+                  <td><button class="yt-button" onclick="window.open('${completion.video_url}', '_blank')"></button></td>
+                </tr>
+              `;
+            });
+            actualCompletionsContentHTML += `
+                </tbody>
+              </table>
+            `;
+          } else {
+            actualCompletionsContentHTML += '<p>No completions recorded yet.</p>';
+          }
+          // Update the completions island with the fetched data
+          completionsIslandDiv.innerHTML = '<h3>Completions</h3>' + actualCompletionsContentHTML;
         }
-
-        // Get the data for the specific level (existing part)
-        const levelData = `
-            <div class="full-info">
-                <button onclick="hideFullInfo()" class="back-button"></button>
-                <h2 class="fullinfoh2"> #${level.rank} - ${level.name}</h2>
-                <h4 class="fullinfoh4">Beaten by <span class="fullcompletedby">${level.completedBy}</span>, published by: <span class="fullcreated">${level.creator}</span></h4>
-                <div id="embed-container"></div>
-                <!-- Your level-specific content here -->
-            </div>
-        `;
-
-        // Combine existing level data HTML with new completions HTML
-        // Inject combined HTML dynamically into the container
-        fullInfoContainer.innerHTML = levelData + completionsHTML;
-
-        // Show the embed (must be called after container HTML is set)
-        showEmbed(videoId, "embed-container");
-
-        // Show the full info container
-        fullInfoContainer.style.display = "block";
-
       })
       .catch(error => {
         console.error("Error fetching completions:", error);
-        // Display an error message to the user or just log it
-        // For now, let\'s just log and render the level data without completions
-        const levelData = `
-            <div class="full-info">
-                <button onclick="hideFullInfo()" class="back-button"></button>
-                <h2 class="fullinfoh2"> #${level.rank} - ${level.name}</h2>
-                <h4 class="fullinfoh4">Beaten by <span class="fullcompletedby">${level.completedBy}</span>, published by: <span class="fullcreated">${level.creator}</span></h4>
-                <div id="embed-container"></div>
-                <p>Could not load completion data.</p>
-            </div>
-        `;
-         fullInfoContainer.innerHTML = levelData;
-         showEmbed(videoId, "embed-container");
-         fullInfoContainer.style.display = "block";
+        const completionsIslandDiv = fullInfoContainer.querySelector(".completions-island");
+        if (completionsIslandDiv) {
+          // Update the completions island with an error message
+          completionsIslandDiv.innerHTML = `
+            <h3>Completions</h3>
+            <p>Could not load completion data.</p>
+          `;
+        }
       });
   }
 }
