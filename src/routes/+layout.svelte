@@ -15,6 +15,7 @@
 <style>
     :global(body) {
         background-image: url("https://preview.redd.it/8nlc7ds4qdk91.png?width=640&crop=smart&auto=webp&s=5750f4515b3556925530cb06902ae80700d7a2d9");
+        background-attachment: fixed;
     }
 
     :global(html) {
