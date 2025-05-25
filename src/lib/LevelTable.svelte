@@ -19,7 +19,6 @@
         return ''; // Return empty string if no valid video ID found
     }
 </script>
-
 <div class="level-table-container">
     <table>
         <tbody>
@@ -27,20 +26,15 @@
                 <tr class="level-row">
                     <td class="level-cell">
                         {#if level.video}
-                            <div class="thumbnail-preview">
+                            <a href={level.video} target="_blank" rel="noopener noreferrer" class="thumbnail-preview">
                                 <img src={getYouTubeThumbnail(level.video)} alt="YouTube Thumbnail" />
-                            </div>
+                            </a>
                         {/if}
                         <div class="level-info">
                             <span class="position">{index + 1}.</span>
                             <span class="level-name">{level.name}</span>
                             <span class="creator">by {level.creator}</span>
                             <span class="completedBy">{level.completedBy}</span>
-                            {#if level.video}
-                                <a href={level.video} target="_blank" rel="noopener noreferrer" class="video-link">
-                                    Watch Video
-                                </a>
-                            {/if}
                         </div>
                     </td>
                 </tr>
@@ -57,7 +51,7 @@
     }
 
     table {
-        width: 100%;
+        width: 80%;
         border-collapse: separate;
         color: var(--text-color, #333333);
         border-spacing: 0 20px; /* Adjusted spacing between rows */
@@ -67,8 +61,8 @@
         display: flex; /* Use flexbox for the table cell */
         align-items: center; /* Vertically align items in the cell */
         justify-content: flex-start; /* Align content to the left */
-        background: var(--bg-color, #00000000);
-        border-radius: 12px; /* Apply border-radius to the single cell */
+        background: var(--bg-color, #ffffff00);
+        border-radius: 24px; /* Apply border-radius to the single cell */
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Optional: Add a subtle shadow */
         backdrop-filter: blur(2px);
         border: #ffffff 1px solid;
@@ -116,21 +110,6 @@
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
     }
 
-    .video-link {
-        color: var(--link-color, #3b82f6);
-        text-decoration: none;
-        padding: 0.5rem 1rem;
-        border: 1px solid var(--link-color, #3b82f6);
-        border-radius: 8px;
-        transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .video-link:hover {
-        background-color: var(--link-color, #3b82f6);
-        color: var(--bg-color, #ffffff);
-        text-decoration: none;
-    }
-
     .thumbnail-preview {
         aspect-ratio: 16/9;
         margin-right: 1rem; /* Space between content and thumbnail */
@@ -148,7 +127,7 @@
         object-fit: cover;
         width: auto;
         height: 100%;
-        border-radius: 8px;
+        border-radius: 24px 0 0 24px;
         display: block;
         max-width: 300px;
         min-width: 120px;

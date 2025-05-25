@@ -1,6 +1,6 @@
 <header>
     <nav>
-        <a href="/">Burned Chicken Demonlist</a>
+        <a href="/"><b>Burned Chicken Demonlist</b></a>
         <div class="nav-links">
             <a href="/">Home</a>
             <a href="/about">About</a>
@@ -13,7 +13,7 @@
     header {
         position: fixed;
         z-index: 1;
-        background-color: #0000005e;
+        background-color: #0000007c;
         backdrop-filter: blur(10px);
         color: white;
         padding: 1rem;
@@ -21,14 +21,14 @@
         left: 50%;
         top: 2%;
         transform: translate(-50%, -2%);
-        border-radius: 12px;
+        border-radius: 24px;
     }
 
     nav {
         max-width: 1200px;
         min-width: 700px;
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
     }
 
@@ -39,6 +39,7 @@
     }
 
     .nav-links {
+        margin-left: 40px;
         display: flex;
         gap: 2rem;
     }
