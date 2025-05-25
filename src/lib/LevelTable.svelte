@@ -1,5 +1,14 @@
 <script>
+    import { onMount } from 'svelte';
+    import ColorThief from 'color-thief-browser';
+    import SquicicleDetail from './FullInfo.svelte'; // Import the new component
+
     export let levels = [];
+
+    // State for the squicicle detail view
+    let showSquicicleDetail = false;
+    let selectedLevel = null;
+    let clickedCellRect = null; // To store the bounding rect of the clicked cell
 
     // Difficulty icons mapping
     const difficultyIcons = {
@@ -18,17 +27,54 @@
         }
         return ''; // Return empty string if no valid video ID found
     }
+
+    // Reactive store for dominant colors
+    let dominantColors = {}; // Use `let` for reactivity
+
+    async function extractDominantColor(imgElement, videoUrl) {
+        // Add a small delay to ensure the image is fully rendered and accessible
+        await new Promise(resolve => setTimeout(resolve, 100));
+        try {
+            const colorThief = new ColorThief();
+            const color = colorThief.getColor(imgElement);
+            console.log(`Dominant color for ${videoUrl}: rgb(${color[0]}, ${color[1]}, ${color[2]})`);
+            dominantColors = { ...dominantColors, [videoUrl]: `rgb(${color[0]}, ${color[1]}, ${color[2]})` };
+        } catch (error) {
+            console.error('Error getting dominant color from loaded image:', error);
+            dominantColors = { ...dominantColors, [videoUrl]: 'rgba(255, 255, 255, 0.237)' }; // Fallback
+        }
+    }
+
+    function openSquicicleDetail(level, event) {
+        selectedLevel = level;
+        clickedCellRect = event.currentTarget.getBoundingClientRect(); // Get the bounding rect
+        showSquicicleDetail = true;
+    }
+
+    function closeSquicicleDetail() {
+        showSquicicleDetail = false;
+        selectedLevel = null;
+    }
 </script>
+
 <div class="level-table-container">
     <table>
         <tbody>
             {#each levels as level, index}
                 <tr class="level-row" style="--thumbnail-url: url('{getYouTubeThumbnail(level.video)}');">
-                    <td class="level-cell">
+                    <td class="level-cell"
+                        style="--dominant-color: {dominantColors[level.video] || 'rgba(255, 255, 255, 0.237)'};"
+                        on:click={(e) => openSquicicleDetail(level, e)}
+                    >
                         {#if level.video}
-                            <a href={level.video} target="_blank" rel="noopener noreferrer" class="thumbnail-preview">
-                                <img src={getYouTubeThumbnail(level.video)} alt="YouTube Thumbnail" />
-                            </a>
+                            <div class="thumbnail-preview">
+                                <img
+                                    src={getYouTubeThumbnail(level.video)}
+                                    alt="YouTube Thumbnail"
+                                    on:load={(e) => extractDominantColor(e.target, level.video)}
+                                    crossorigin="anonymous"
+                                />
+                            </div>
                         {/if}
                         <div class="level-info">
                             <span class="position">{index + 1}.</span>
@@ -42,6 +88,10 @@
         </tbody>
     </table>
 </div>
+
+{#if showSquicicleDetail && selectedLevel}
+    <SquicicleDetail level={selectedLevel} initialRect={clickedCellRect} on:close={closeSquicicleDetail} />
+{/if}
 
 <style>
     .level-table-container {
@@ -65,12 +115,14 @@
         justify-content: flex-start; /* Align content to the left */
         background: rgba(30, 30, 30, 0.02); /* More transparent background to let ambient effect show */
         border-radius: 24px; /* Apply border-radius to the single cell */
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Optional: Add a subtle shadow */
         backdrop-filter: blur(4px) saturate(150%); /* macOS-like blur with adjusted intensity and saturation */
         -webkit-backdrop-filter: blur(8px) saturate(150%); /* For Safari */
-        border: rgba(255, 255, 255, 0.237) 1px solid; /* Even softer border */
+        border: 1px solid var(--dominant-color, rgba(255, 255, 255, 0.237)); /* Use dominant color for border */
         position: relative; /* Needed for absolute positioning of pseudo-element */
         overflow: hidden; /* Hide overflow from blurred background */
+        box-shadow: 0 0 15px var(--dominant-color, rgba(255, 255, 255, 0.237)); /* Neon effect */
+        transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+        cursor: pointer; /* Indicate clickable */
     }
 
     .level-cell::before {
@@ -134,6 +186,11 @@
         transform: translateY(-5px); /* Lift effect on hover */
     }
 
+    /* Add a subtle glow on hover */
+    .level-row:hover .level-cell {
+        box-shadow: 0 0 25px var(--dominant-color, rgba(255, 255, 255, 0.237)), 0 0 40px var(--dominant-color, rgba(255, 255, 255, 0.237));
+    }
+
     .level-row:hover td {
         background: var(--hover-bg-color, #ffffff07);
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
@@ -189,7 +246,7 @@
 
         .thumbnail-preview img {
             border-radius: 24px; /* Full border-radius for stacked thumbnail */
-            max-width: 250px; /* Adjust max width for mobile */
+            max-width: 350px; /* Adjust max width for mobile */
             min-width: unset; /* Remove min-width constraint */
         }
 

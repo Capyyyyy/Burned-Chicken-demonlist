@@ -57,5 +57,11 @@
         .nav-links {
             gap: 1rem;
         }
+
+        header {
+            left: 50%;
+            transform: translate(-50%);
+            width: 90%;
+        }
     }
 </style>
