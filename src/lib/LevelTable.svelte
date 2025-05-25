@@ -227,38 +227,54 @@
 
     /* Mobile styles */
     @media (max-width: 768px) {
+        :global(html), :global(body) {
+            overflow-x: hidden;
+        }
+        .level-table-container {
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            box-sizing: border-box;
+            margin: 0 auto;
+            padding: 0 0.5rem;
+        }
         table {
-            width: 100%; /* Full width on mobile */
-            max-width: 400px; /* Limit table width on mobile */
-            margin: 0 auto; /* Center the table */
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            margin: 0 auto;
+            box-sizing: border-box;
         }
-
         .level-cell {
-            flex-direction: column; /* Stack items vertically on small screens */
-            align-items: center; /* Center items horizontally */
-            padding: 1rem; /* Add padding to the cell */
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            box-sizing: border-box;
+            width: 100%;
         }
-
         .thumbnail-preview {
-            margin: 0 0 1rem 0; /* Adjust margins for stacking */
-            width: 100%; /* Full width for thumbnail container */
+            margin: 0 0 1rem 0;
+            width: 100%;
+            box-sizing: border-box;
         }
-
         .thumbnail-preview img {
-            border-radius: 24px; /* Full border-radius for stacked thumbnail */
-            max-width: 350px; /* Adjust max width for mobile */
-            min-width: unset; /* Remove min-width constraint */
+            border-radius: 24px;
+            max-width: 100%;
+            min-width: 0;
+            width: 100%;
+            height: auto;
+            box-sizing: border-box;
         }
-
         .level-info {
-            width: 100%; /* Full width for info block */
-            align-items: center; /* Center text on mobile */
+            width: 100%;
+            align-items: center;
             text-align: center;
+            box-sizing: border-box;
         }
-
         .position, .level-name, .creator, .completedBy {
-            width: 100%; /* Ensure each info item takes full width */
+            width: 100%;
             text-align: center;
+            box-sizing: border-box;
         }
     }
 </style>

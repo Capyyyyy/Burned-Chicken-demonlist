@@ -6,9 +6,31 @@ export let level;
 export let initialRect = null; // Prop to receive the initial bounding rectangle
 
 let detailContentElement; // Reference to the detail content element
+let overlayElement; // Reference to the overlay element
+let closing = false; // Track if we are closing
+let closeTimeout = null; // Track the close animation timeout
 
 onMount(() => {
-    if (initialRect && detailContentElement) {
+    closing = false;
+    if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+    }
+    if (initialRect && detailContentElement && overlayElement) {
+        // Reset styles for immediate re-open
+        detailContentElement.style.transition = 'none';
+        detailContentElement.style.opacity = '0';
+        overlayElement.style.transition = 'none';
+        overlayElement.style.background = 'rgba(0,0,0,0)';
+        overlayElement.style.backdropFilter = 'blur(0px)';
+
+        // Animate overlay in
+        requestAnimationFrame(() => {
+            overlayElement.style.transition = 'background 0.5s ease-out, backdrop-filter 0.5s ease-out';
+            overlayElement.style.background = 'rgba(0,0,0,0.7)';
+            overlayElement.style.backdropFilter = 'blur(10px)';
+        });
+
         // Calculate the center of the screen
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
@@ -28,9 +50,6 @@ onMount(() => {
         // Apply the initial style
         detailContentElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
         detailContentElement.style.transformOrigin = 'top left';
-        detailContentElement.style.opacity = '0';
-
-        // Animate to final style
         requestAnimationFrame(() => {
             detailContentElement.style.transition = 'transform 0.5s ease-out, opacity 0.5s ease-out';
             detailContentElement.style.transform = 'translate(0, 0) scale(1)';
@@ -41,7 +60,41 @@ onMount(() => {
 
 const dispatch = createEventDispatcher();
 
-function closeDetail() {
+async function closeDetail() {
+    if (closing) return;
+    closing = true;
+    if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+    }
+    if (initialRect && detailContentElement && overlayElement) {
+        // Calculate the center of the screen
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const targetWidth = detailContentElement.offsetWidth;
+        const targetHeight = detailContentElement.offsetHeight;
+        const targetX = (viewportWidth - targetWidth) / 2;
+        const targetY = (viewportHeight - targetHeight) / 2;
+        const scaleX = initialRect.width / targetWidth;
+        const scaleY = initialRect.height / targetHeight;
+        const translateX = initialRect.left - targetX;
+        const translateY = initialRect.top - targetY;
+        // Animate back to initial style
+        detailContentElement.style.transition = 'transform 0.5s ease-in, opacity 0.5s ease-in';
+        detailContentElement.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scaleX}, ${scaleY})`;
+        detailContentElement.style.opacity = '0';
+        overlayElement.style.transition = 'background 0.5s ease-in, backdrop-filter 0.5s ease-in';
+        overlayElement.style.background = 'rgba(0,0,0,0)';
+        overlayElement.style.backdropFilter = 'blur(0px)';
+
+        // Wait for the transition to finish, but allow interruption
+        await new Promise(resolve => {
+            closeTimeout = setTimeout(() => {
+                closeTimeout = null;
+                resolve();
+            }, 500);
+        });
+    }
     dispatch('close');
 }
 
@@ -49,6 +102,7 @@ function closeDetail() {
 
 <div
     class="squicicle-detail-overlay"
+    bind:this={overlayElement}
     role="dialog"
     tabindex="0"
     aria-modal="true"

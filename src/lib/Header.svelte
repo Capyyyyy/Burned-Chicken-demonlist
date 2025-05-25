@@ -2,9 +2,8 @@
     <nav>
         <a href="/"><b>Burned Chicken Demonlist</b></a>
         <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/about">About</a>
-            <a href="/contact">Contact</a>
+            <a href="/">Main List</a>
+            <a href="https://discord.gg/9qwtk8nJKP">Submit completion</a>
         </div>
     </nav>
 </header>
@@ -26,7 +25,6 @@
 
     nav {
         max-width: 1200px;
-        min-width: 700px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -52,16 +50,29 @@
         nav {
             flex-direction: column;
             gap: 1rem;
+            min-width: 0;
+            width: 100%;
+            max-width: 100%;
         }
 
         .nav-links {
             gap: 1rem;
+            margin-left: 0;
+            width: 100%;
+            justify-content: center;
         }
 
         header {
             left: 50%;
             transform: translate(-50%);
-            width: 90%;
+            width: 98vw;
+            min-width: 0;
+            max-width: 100vw;
+            padding: 0.5rem 0.5rem;
+            box-sizing: border-box;
+        }
+        nav a {
+            font-size: 1rem;
         }
     }
 </style>

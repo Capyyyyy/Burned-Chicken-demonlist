@@ -7,37 +7,28 @@
 <div class="container">
 
     <LevelTable levels={demonList} />
-
-    <div class="submit-info">
-        <a href="https://discord.gg/8EYVSk2f" target="_blank" rel="noopener noreferrer" class="discord-link">
-            Submit your completion on Discord
-        </a>
-    </div>
 </div>
 
 <style>
+
+    /* Custom scrollbar styling */
+    :global(body)::-webkit-scrollbar {
+        width: 12px;
+    }
+    :global(body)::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.4);
+        border-radius: 8px;
+        border: 2px solid #444;
+    }
+    :global(body)::-webkit-scrollbar-track {
+        background: rgba(255,255,255,0.1);
+    }
+    :global(body) {
+        scrollbar-width: thin;
+        scrollbar-color: #444 rgba(255,255,255,0.1);
+    }
+
     .container {
         width: 100%;
-    }
-
-    .submit-info {
-        text-align: center;
-        margin-top: 2rem;
-        padding: 2rem;
-    }
-
-    .discord-link {
-        display: inline-block;
-        background-color: #7289da;
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: background-color 0.2s;
-    }
-
-    .discord-link:hover {
-        background-color: #5f73bc;
     }
 </style>
