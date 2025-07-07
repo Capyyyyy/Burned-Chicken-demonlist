@@ -1,7 +1,12 @@
 <script>
 	import Header from '$lib/Header.svelte';
 	import NavigationListener from '$lib/NavigationListener.svelte';
-	import { SpeedInsights } from '@vercel/speed-insights/next';
+	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+		injectSpeedInsights();
+	});
 </script>
 
 <div class="app">
