@@ -1,6 +1,5 @@
 <script>
 	import Header from '$lib/Header.svelte';
-	import LoadingScreen from '$lib/LoadingScreen.svelte';
 	import NavigationListener from '$lib/NavigationListener.svelte';
 </script>
 
@@ -10,9 +9,7 @@
 	<main>
 		<slot />
 	</main>
-
 	<NavigationListener />
-	<LoadingScreen />
 </div>
 
 <style>

@@ -1,9 +1,9 @@
 <script>
-	import ColorThief from 'color-thief-browser';
+	// import ColorThief from 'color-thief-browser';
 	import { goto } from '$app/navigation';
 	import { onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
-	import { navigateToLevel } from './navigationHandler.js';
+	import { onMount } from 'svelte';
 	// Removed SquicicleDetail import as we're using navigation instead
 
 	export let levels = [];
@@ -11,6 +11,10 @@
 	let clickedLevelId = null;
 
 	// Navigation function for level details
+	function navigateToLevel(levelId) {
+		goto(`/levels/${levelId}`);
+	}
+
 	async function handleLevelNavigation(levelId) {
 		// Prevent multiple clicks
 		if (clickedLevelId === levelId) return;
@@ -22,7 +26,7 @@
 		const levelName = level ? level.name : '';
 
 		// Use navigation handler with loading
-		await navigateToLevel(levelId, levelName);
+		await navigateToLevel(levelId);
 
 		// Reset clicked state after navigation
 		setTimeout(() => {
@@ -45,30 +49,16 @@
 	let dominantColors = {}; // Use `let` for reactivity
 	let imageLoadingStates = {}; // Track loading states
 	let imageErrorStates = {}; // Track error states
+	let cleanupInterval; // Store interval reference
+	let observer; // Store MutationObserver reference
 
 	async function extractDominantColor(imgElement, videoUrl) {
-		// Add a small delay to ensure the image is fully rendered and accessible
-		await new Promise((resolve) => setTimeout(resolve, 100));
+		// Temporarily disabled ColorThief to test canvas issue
 		try {
-			const colorThief = new ColorThief();
-			const color = colorThief.getColor(imgElement);
-			console.log(`Dominant color for ${videoUrl}: rgb(${color[0]}, ${color[1]}, ${color[2]})`);
-			dominantColors = {
-				...dominantColors,
-				[videoUrl]: `rgb(${color[0]}, ${color[1]}, ${color[2]})`
-			};
-
-			// Clean up any canvas elements created by ColorThief
-			if (browser) {
-				const canvasElements = document.querySelectorAll('canvas');
-				canvasElements.forEach((canvas) => {
-					if (canvas.parentNode === document.body) {
-						canvas.remove();
-					}
-				});
-			}
+			// Just use a fallback color instead of extracting
+			dominantColors = { ...dominantColors, [videoUrl]: 'rgba(255, 255, 255, 0.237)' };
 		} catch (error) {
-			console.error('Error getting dominant color from loaded image:', error);
+			console.error('Error setting dominant color:', error);
 			dominantColors = { ...dominantColors, [videoUrl]: 'rgba(255, 255, 255, 0.237)' }; // Fallback
 		}
 	}
@@ -87,21 +77,84 @@
 		imageErrorStates = { ...imageErrorStates, [videoUrl]: false };
 	}
 
-	// Cleanup function to remove any remaining canvas elements
+	// Aggressive cleanup function to remove any canvas elements
 	function cleanupCanvasElements() {
 		if (browser) {
 			const canvasElements = document.querySelectorAll('canvas');
 			canvasElements.forEach((canvas) => {
-				if (canvas.parentNode === document.body) {
+				// Remove any canvas that's not part of the main content
+				if (
+					canvas.parentNode === document.body ||
+					!canvas.closest('.level-table-container') ||
+					canvas.style.display === 'none' ||
+					canvas.offsetParent === null
+				) {
 					canvas.remove();
+					console.log('Removed stray canvas element');
 				}
 			});
 		}
 	}
 
+	// Setup aggressive canvas monitoring
+	function setupCanvasMonitoring() {
+		if (browser) {
+			// Periodic cleanup every 2 seconds
+			cleanupInterval = setInterval(() => {
+				cleanupCanvasElements();
+			}, 2000);
+
+			// MutationObserver to catch canvas elements as they're added
+			observer = new MutationObserver((mutations) => {
+				mutations.forEach((mutation) => {
+					mutation.addedNodes.forEach((node) => {
+						if (node.nodeType === Node.ELEMENT_NODE) {
+							if (node.tagName === 'CANVAS') {
+								// Remove canvas immediately if it's not in our container
+								if (!node.closest('.level-table-container')) {
+									node.remove();
+									console.log('Removed canvas via MutationObserver');
+								}
+							}
+							// Also check child elements
+							const childCanvases = node.querySelectorAll && node.querySelectorAll('canvas');
+							if (childCanvases) {
+								childCanvases.forEach((canvas) => {
+									if (!canvas.closest('.level-table-container')) {
+										canvas.remove();
+										console.log('Removed child canvas via MutationObserver');
+									}
+								});
+							}
+						}
+					});
+				});
+			});
+
+			// Start observing
+			observer.observe(document.body, {
+				childList: true,
+				subtree: true
+			});
+		}
+	}
+
+	// Setup monitoring when component mounts
+	onMount(() => {
+		setupCanvasMonitoring();
+		// Initial cleanup
+		cleanupCanvasElements();
+	});
+
 	// Clean up on component destroy
 	onDestroy(() => {
 		cleanupCanvasElements();
+		if (cleanupInterval) {
+			clearInterval(cleanupInterval);
+		}
+		if (observer) {
+			observer.disconnect();
+		}
 	});
 
 	// Removed modal functions as we're using navigation instead
