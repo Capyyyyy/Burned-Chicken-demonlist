@@ -1,6 +1,7 @@
 <script>
 	import Header from '$lib/Header.svelte';
 	import NavigationListener from '$lib/NavigationListener.svelte';
+	import { SpeedInsights } from '@vercel/speed-insights/next';
 </script>
 
 <div class="app">
