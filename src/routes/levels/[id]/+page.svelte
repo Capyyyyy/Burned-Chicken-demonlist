@@ -107,11 +107,11 @@
 		<div class="other-completions">
 			<h2>Records</h2>
 			{#if loading}
-				<p>Loading completions...</p>
+				<p>Loading records...</p>
 			{:else if error}
 				<p>{error}</p>
 			{:else if completions.length === 0}
-				<p>There's no completions</p>
+				<p>There's no records yet!</p>
 			{:else}
 				<div class="table-container">
 					<table>
