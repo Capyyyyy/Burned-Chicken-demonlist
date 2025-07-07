@@ -1,6 +1,43 @@
 <script>
+	import { onMount } from 'svelte';
+
 	export let data;
 	const { level } = data;
+
+	let completions = [];
+	let loading = true;
+	let error = null;
+
+	onMount(async () => {
+		try {
+			const response = await fetch(
+				`https://bcdbackend.onrender.com/api/levels/${level.levelId}/completions`
+			);
+			if (response.ok) {
+				const data = await response.json();
+				completions = data.sort(
+					(a, b) => new Date(a.completion_date) - new Date(b.completion_date)
+				);
+			} else {
+				error = 'Failed to fetch completions';
+			}
+		} catch (err) {
+			error = 'Error fetching completions';
+		} finally {
+			loading = false;
+		}
+	});
+
+	function formatDate(dateString) {
+		const date = new Date(dateString);
+		return date.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit'
+		});
+	}
 </script>
 
 <svelte:head>
@@ -32,6 +69,47 @@
 			<div class="level-id">
 				<p>ID: {level.levelId}</p>
 			</div>
+		</div>
+		<div class="other-completions">
+			<h2>Records</h2>
+			{#if loading}
+				<p>Loading completions...</p>
+			{:else if error}
+				<p>{error}</p>
+			{:else if completions.length === 0}
+				<p>There's no completions</p>
+			{:else}
+				<div class="table-container">
+					<table>
+						<thead>
+							<tr>
+								<th>Player</th>
+								<th>Video</th>
+							</tr>
+						</thead>
+						<tbody>
+							{#each completions as completion}
+								<tr>
+									<td>{completion.player_name}</td>
+									<td>
+										{#if completion.videoId}
+											<a
+												href="https://www.youtube.com/watch?v={completion.videoId}"
+												target="_blank"
+												rel="noopener"
+											>
+												Watch
+											</a>
+										{:else}
+											N/A
+										{/if}
+									</td>
+								</tr>
+							{/each}
+						</tbody>
+					</table>
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>
@@ -98,6 +176,7 @@
 		background-color: rgba(25, 25, 25, 0.9);
 		border-radius: 12px;
 		max-width: 15rem;
+		width: 100%;
 	}
 
 	.video-container {
@@ -137,6 +216,60 @@
 		}
 	}
 
+	.other-completions {
+		margin-top: 2rem;
+	}
+
+	.other-completions h2 {
+		font-family: 'Pusab', Arial, sans-serif;
+		color: var(--primary-color, #4a90e2);
+		margin-bottom: 1rem;
+		font-size: 1.8rem;
+		text-align: center;
+	}
+
+	.table-container {
+		overflow-x: auto;
+		border-radius: 12px;
+		background: rgba(25, 25, 25, 0.9);
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		min-width: 300px;
+	}
+
+	th,
+	td {
+		padding: 0.75rem;
+		text-align: left;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	}
+
+	th {
+		background: rgba(15, 15, 15, 0.9);
+		font-weight: bold;
+		color: var(--primary-color, #4a90e2);
+	}
+
+	td {
+		color: white;
+	}
+
+	tr:hover {
+		background: rgba(255, 255, 255, 0.05);
+	}
+
+	a {
+		color: var(--primary-color, #4a90e2);
+		text-decoration: none;
+	}
+
+	a:hover {
+		text-decoration: underline;
+	}
+
 	@media (max-width: 480px) {
 		.level-detail-container {
 			padding: 0.5rem 0.25rem;
@@ -159,6 +292,16 @@
 
 		.video-container {
 			margin-top: 1.5rem;
+		}
+
+		.other-completions h2 {
+			font-size: 1.5rem;
+		}
+
+		th,
+		td {
+			padding: 0.5rem;
+			font-size: 0.9rem;
 		}
 	}
 	:global(html) {
