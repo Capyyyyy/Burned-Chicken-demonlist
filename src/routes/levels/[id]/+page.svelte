@@ -1,11 +1,6 @@
 <script>
-	import { goto } from '$app/navigation';
 	export let data;
 	const { level } = data;
-
-	function goBack() {
-		goto('/');
-	}
 </script>
 
 <svelte:head>
@@ -18,13 +13,8 @@
 
 <div class="level-detail-container">
 	<div class="level-detail-content">
-		<button class="back-button" on:click={goBack}>← Back to List</button>
-		<h1>{level.name}</h1>
-		<p class="creator">by {level.creator}</p>
-		<p class="completed-by">Completed by: {level.completedBy}</p>
-		<p class="rank">Rank: #{level.rank}</p>
-		<p class="level-id">Level ID: {level.levelId}</p>
-
+		<h1>#{level.rank} - {level.name}</h1>
+		<p class="completed-by">Completed by: {level.completedBy}, published by {level.creator}</p>
 		{#if level.video}
 			<div class="video-container">
 				<iframe
@@ -38,6 +28,11 @@
 				></iframe>
 			</div>
 		{/if}
+		<div class="other-info">
+			<div class="level-id">
+				<p>ID: {level.levelId}</p>
+			</div>
+		</div>
 	</div>
 </div>
 
@@ -53,7 +48,7 @@
 		width: 100%;
 		max-width: 1000px;
 		margin: 0 auto;
-		padding: 2rem;
+		padding: 0 2rem;
 		box-sizing: border-box;
 	}
 
@@ -78,56 +73,31 @@
 		text-align: center;
 	}
 
-	.creator,
-	.completed-by,
-	.rank,
-	.level-id {
+	.completed-by {
 		font-size: 1.1rem;
 		margin-bottom: 0.5rem;
+		font-weight: bold;
+		opacity: 75%;
 	}
 
-	.creator {
-		color: #bbb;
-		font-style: italic;
-	}
-
-	.completed-by {
-		color: #4a90e2;
-		font-weight: 500;
-	}
-
-	.rank {
-		color: #e74c3c;
-		font-weight: 600;
+	.other-info {
+		margin-top: 1rem;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		font-size: 1.1rem;
+		font-weight: bold;
 	}
 
 	.level-id {
-		color: #95a5a6;
-		font-size: 0.9rem;
-	}
-
-	.back-button {
-		background: rgba(74, 144, 226, 0.8);
-		color: white;
-		border: none;
-		padding: 0.75rem 1.5rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		font-size: 1.1rem;
+		font-weight: bold;
+		background-color: rgba(25, 25, 25, 0.9);
 		border-radius: 12px;
-		font-size: 1rem;
-		cursor: pointer;
-		transition: all 0.3s ease;
-		margin-bottom: 1rem;
-		backdrop-filter: blur(10px);
-		border: 1px solid rgba(255, 255, 255, 0.2);
-	}
-
-	.back-button:hover {
-		background: rgba(74, 144, 226, 1);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
-	}
-
-	.back-button:active {
-		transform: translateY(0);
+		max-width: 15rem;
 	}
 
 	.video-container {
@@ -161,19 +131,9 @@
 			font-size: 1.8rem;
 		}
 
-		.creator,
-		.completed-by,
-		.rank,
-		.level-id {
+		.completed-by {
 			font-size: 1rem;
 			text-align: center;
-		}
-
-		.back-button {
-			width: 100%;
-			padding: 1rem;
-			font-size: 1.1rem;
-			margin-bottom: 1.5rem;
 		}
 	}
 
@@ -192,22 +152,13 @@
 			margin-bottom: 1.5rem;
 		}
 
-		.creator,
-		.completed-by,
-		.rank,
-		.level-id {
+		.completed-by {
 			font-size: 0.9rem;
 			margin-bottom: 0.75rem;
 		}
 
 		.video-container {
 			margin-top: 1.5rem;
-		}
-
-		.back-button {
-			padding: 0.875rem;
-			font-size: 1rem;
-			border-radius: 8px;
 		}
 	}
 	:global(html) {
