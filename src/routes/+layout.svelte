@@ -1,7 +1,7 @@
 <script>
 	import Header from '$lib/Header.svelte';
-
-	// Add your layout-wide logic here if needed
+	import LoadingScreen from '$lib/LoadingScreen.svelte';
+	import NavigationListener from '$lib/NavigationListener.svelte';
 </script>
 
 <div class="app">
@@ -10,6 +10,9 @@
 	<main>
 		<slot />
 	</main>
+
+	<NavigationListener />
+	<LoadingScreen />
 </div>
 
 <style>

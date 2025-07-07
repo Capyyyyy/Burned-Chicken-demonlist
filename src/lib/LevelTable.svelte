@@ -1,13 +1,33 @@
 <script>
 	import ColorThief from 'color-thief-browser';
 	import { goto } from '$app/navigation';
+	import { onDestroy } from 'svelte';
+	import { browser } from '$app/environment';
+	import { navigateToLevel } from './navigationHandler.js';
 	// Removed SquicicleDetail import as we're using navigation instead
 
 	export let levels = [];
 
+	let clickedLevelId = null;
+
 	// Navigation function for level details
-	function navigateToLevel(levelId) {
-		goto(`/levels/${levelId}`);
+	async function handleLevelNavigation(levelId) {
+		// Prevent multiple clicks
+		if (clickedLevelId === levelId) return;
+
+		clickedLevelId = levelId;
+
+		// Find the level to get its name for the loading message
+		const level = levels.find((l) => l.levelId === levelId);
+		const levelName = level ? level.name : '';
+
+		// Use navigation handler with loading
+		await navigateToLevel(levelId, levelName);
+
+		// Reset clicked state after navigation
+		setTimeout(() => {
+			clickedLevelId = null;
+		}, 1000);
 	}
 
 	// Function to extract YouTube video ID and generate thumbnail URL
@@ -37,6 +57,16 @@
 				...dominantColors,
 				[videoUrl]: `rgb(${color[0]}, ${color[1]}, ${color[2]})`
 			};
+
+			// Clean up any canvas elements created by ColorThief
+			if (browser) {
+				const canvasElements = document.querySelectorAll('canvas');
+				canvasElements.forEach((canvas) => {
+					if (canvas.parentNode === document.body) {
+						canvas.remove();
+					}
+				});
+			}
 		} catch (error) {
 			console.error('Error getting dominant color from loaded image:', error);
 			dominantColors = { ...dominantColors, [videoUrl]: 'rgba(255, 255, 255, 0.237)' }; // Fallback
@@ -57,6 +87,23 @@
 		imageErrorStates = { ...imageErrorStates, [videoUrl]: false };
 	}
 
+	// Cleanup function to remove any remaining canvas elements
+	function cleanupCanvasElements() {
+		if (browser) {
+			const canvasElements = document.querySelectorAll('canvas');
+			canvasElements.forEach((canvas) => {
+				if (canvas.parentNode === document.body) {
+					canvas.remove();
+				}
+			});
+		}
+	}
+
+	// Clean up on component destroy
+	onDestroy(() => {
+		cleanupCanvasElements();
+	});
+
 	// Removed modal functions as we're using navigation instead
 </script>
 
@@ -67,8 +114,9 @@
 				<tr class="level-row" style="--thumbnail-url: url('{getYouTubeThumbnail(level.video)}');">
 					<td
 						class="level-cell"
+						class:loading={clickedLevelId === level.levelId}
 						style="--dominant-color: {dominantColors[level.video] || 'rgba(255, 255, 255, 0.237)'};"
-						on:click={() => navigateToLevel(level.levelId)}
+						on:click={() => handleLevelNavigation(level.levelId)}
 					>
 						{#if level.video}
 							<div class="thumbnail-preview">
@@ -90,7 +138,6 @@
 										}}
 										on:error={() => handleImageError(level.video)}
 										on:loadstart={() => handleImageStart(level.video)}
-										crossorigin="anonymous"
 									/>
 								{/if}
 							</div>
@@ -101,6 +148,12 @@
 							<span class="creator">by {level.creator}</span>
 							<span class="completedBy">{level.completedBy}</span>
 						</div>
+						{#if clickedLevelId === level.levelId}
+							<div class="loading-indicator">
+								<div class="mini-spinner"></div>
+								<span>Loading...</span>
+							</div>
+						{/if}
 					</td>
 				</tr>
 			{/each}
@@ -228,6 +281,33 @@
 			0 0 40px var(--dominant-color, rgba(255, 255, 255, 0.237));
 	}
 
+	.level-cell.loading {
+		opacity: 0.8;
+		pointer-events: none;
+	}
+
+	.level-cell.loading::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(74, 144, 226, 0.1);
+		border-radius: 24px;
+		animation: pulse 1s ease-in-out infinite;
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 0.5;
+		}
+		50% {
+			opacity: 1;
+		}
+	}
+
 	.level-row:hover td {
 		background: var(--hover-bg-color, #ffffff07);
 		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* More pronounced shadow on hover */
@@ -290,6 +370,38 @@
 		opacity: 0.7;
 	}
 
+	.loading-indicator {
+		position: absolute;
+		top: 50%;
+		right: 1rem;
+		transform: translateY(-50%);
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--primary-color, #4a90e2);
+		font-size: 0.9rem;
+		font-weight: 600;
+		z-index: 1;
+	}
+
+	.mini-spinner {
+		width: 16px;
+		height: 16px;
+		border: 2px solid rgba(255, 255, 255, 0.3);
+		border-top: 2px solid var(--primary-color, #4a90e2);
+		border-radius: 50%;
+		animation: spin 1s linear infinite;
+	}
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
+	}
+
 	/* PC/Tablet styles (larger screens) */
 	@media (min-width: 769px) {
 		.level-info {
@@ -329,6 +441,7 @@
 			box-sizing: border-box;
 			width: 100%;
 			min-height: 44px; /* Minimum touch target size */
+			position: relative;
 		}
 		.thumbnail-preview {
 			margin: 0 0 1rem 0;
@@ -355,6 +468,16 @@
 			text-align: center;
 			box-sizing: border-box;
 			gap: 0.5rem;
+			position: relative;
+		}
+
+		.loading-indicator {
+			position: relative;
+			top: auto;
+			right: auto;
+			transform: none;
+			justify-content: center;
+			margin-top: 0.5rem;
 		}
 		.position,
 		.level-name,

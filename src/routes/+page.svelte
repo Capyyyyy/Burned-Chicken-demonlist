@@ -1,7 +1,17 @@
 <script>
+	import { onMount } from 'svelte';
 	import LevelTable from '$lib/LevelTable.svelte';
+	import { stopLoading } from '$lib/stores/loading.js';
+
 	export let data;
 	const { demonList } = data;
+
+	onMount(() => {
+		// Stop loading when main page is loaded
+		setTimeout(() => {
+			stopLoading();
+		}, 100);
+	});
 </script>
 
 <div class="container">
