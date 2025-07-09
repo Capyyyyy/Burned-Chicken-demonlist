@@ -21,7 +21,7 @@
 
 <style>
 	:global(body) {
-		background-image: url('D:\webprojects\Burned-Chicken-demonlist\themes\default_cubes\background.png');
+		background-image: url('/themes/default_cubes/background.png');
 		background-attachment: fixed;
 		background-size: cover;
 		margin: 0;
