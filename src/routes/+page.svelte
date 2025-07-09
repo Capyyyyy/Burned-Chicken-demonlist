@@ -21,12 +21,6 @@
 <footer class="footer">
 	<div class="footer-content">
 		<span>Made by Capy</span>
-		<span class="footer-link-span"
-			><a
-				href="https://www.reddit.com/r/geometrydash/comments/wzm4wk/gd_wallpapers_i_made_3840x2160_feel_free_to"
-				>Credits: background - Reddit</a
-			></span
-		>
 	</div>
 </footer>
 
@@ -68,31 +62,25 @@
 	}
 
 	.footer {
-		width: 100%;
+		width: 25%;
 		padding: 1rem 0;
-		background: #222;
+		background: rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(12px);
 		color: #fff;
 		text-align: center;
 		font-size: 1rem;
 		box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 		margin-top: 2rem;
-		border-radius: 24px;
+		border-radius: 128px;
+		margin-left: auto;
+		margin-right: auto;
 	}
+
 	.footer-content {
-		display: flex;
-		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		gap: 0.2rem;
-	}
-	.footer-content a {
-		color: #fff;
-		text-decoration: none;
-		transition: color 0.2s;
-	}
-	.footer-content a:hover {
-		color: #bbb;
-		text-decoration: none;
+		flex-direction: column;
+		display: flex;
 	}
 
 	/* Mobile responsive footer */
@@ -100,29 +88,13 @@
 		.footer {
 			padding: 1.5rem 1rem;
 			margin-top: 1rem;
-			border-radius: 16px;
-			font-size: 0.9rem;
-		}
-
-		.footer-content {
-			gap: 0.5rem;
 		}
 	}
 
 	@media (max-width: 480px) {
 		.footer {
-			padding: 1rem 0.5rem;
-			font-size: 0.85rem;
-			border-radius: 12px;
-		}
-
-		.footer-content {
-			gap: 0.75rem;
-		}
-
-		.footer-content a {
-			display: block;
-			padding: 0.25rem 0;
+			font-size: 0.95rem;
+			border-radius: 48px;
 		}
 	}
 </style>

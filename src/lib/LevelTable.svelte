@@ -221,7 +221,7 @@
 		width: 100%;
 		max-width: 1200px; /* Limit max width on larger screens */
 		overflow-x: auto;
-		margin: 2rem auto; /* Center the container */
+		margin: -1.5rem auto; /* Center the container */
 		padding: 0 1rem; /* Add some horizontal padding */
 	}
 
@@ -240,10 +240,10 @@
 		border-radius: 24px; /* Apply border-radius to the single cell */
 		backdrop-filter: blur(4px) saturate(150%); /* macOS-like blur with adjusted intensity and saturation */
 		-webkit-backdrop-filter: blur(8px) saturate(150%); /* For Safari */
-		border: 1px solid var(--dominant-color, rgba(255, 255, 255, 0.237)); /* Use dominant color for border */
+		border: 1px solid rgba(255, 255, 255, 0.237); /* Use dominant color for border */
 		position: relative; /* Needed for absolute positioning of pseudo-element */
 		overflow: hidden; /* Hide overflow from blurred background */
-		box-shadow: 0 0 15px var(--dominant-color, rgba(255, 255, 255, 0.237)); /* Neon effect */
+		box-shadow: 0 0 15px rgba(255, 255, 255, 0.237); /* Neon effect */
 		transition:
 			border-color 0.3s ease,
 			box-shadow 0.3s ease,
@@ -303,13 +303,13 @@
 	}
 
 	.creator {
-		color: var(--text-color-light, #bbb);
+		color: var(--text-color-light, #f2f2f2);
 		font-size: 0.9em;
 		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 	}
 
 	.completedBy {
-		color: var(--text-color-light, #bbb);
+		color: var(--text-color-light, #f2f2f2);
 		font-size: 0.9em;
 		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
 	}

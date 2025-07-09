@@ -234,7 +234,8 @@
 	}
 
 	.level-detail-content {
-		background: rgba(30, 30, 30, 0.9);
+		background: rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(12px);
 		border-radius: 24px;
 		padding: 2rem;
 		color: white;
@@ -276,7 +277,8 @@
 		align-items: center;
 		font-size: 1.1rem;
 		font-weight: bold;
-		background-color: rgba(25, 25, 25, 0.9);
+		background: rgba(0, 0, 0, 0.3);
+		backdrop-filter: blur(12px);
 		border-radius: 12px;
 		max-width: 15rem;
 		width: 100%;

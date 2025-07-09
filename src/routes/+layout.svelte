@@ -9,6 +9,7 @@
 	});
 </script>
 
+<div class="background-blur"></div>
 <div class="app">
 	<Header />
 
@@ -20,13 +21,26 @@
 
 <style>
 	:global(body) {
-		background-image: url('https://preview.redd.it/8nlc7ds4qdk91.png?width=640&crop=smart&auto=webp&s=5750f4515b3556925530cb06902ae80700d7a2d9');
+		background-image: url('D:\webprojects\Burned-Chicken-demonlist\themes\default_cubes\background.png');
 		background-attachment: fixed;
+		background-size: cover;
 		margin: 0;
 		padding: 0;
 		-webkit-text-size-adjust: 100%;
 		-ms-text-size-adjust: 100%;
 		overflow-x: hidden;
+	}
+	.background-blur {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: -1;
+		width: 100vw;
+		height: 100vh;
+		pointer-events: none;
+		backdrop-filter: blur(12px);
 	}
 
 	:global(html) {
