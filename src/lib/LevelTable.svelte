@@ -264,14 +264,14 @@
 		background-size: cover;
 		background-position: center;
 		filter: blur(30px) brightness(0.7); /* Adjust blur and brightness as needed */
-		opacity: 0.3; /* Adjust opacity for the ambient effect */
+		opacity: 0.5; /* Adjust opacity for the ambient effect */
 		z-index: -1; /* Place behind content */
 		transition: opacity 0.3s ease; /* Smooth transition for hover */
 		border-radius: 24px; /* Match parent border-radius */
 	}
 
 	.level-row:hover .level-cell::before {
-		opacity: 0.5; /* Slightly more visible on hover */
+		opacity: 0.7; /* Slightly more visible on hover */
 	}
 
 	.level-info {
