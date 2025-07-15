@@ -341,7 +341,8 @@
 	.table-container {
 		overflow-x: auto;
 		border-radius: 12px;
-		background: rgba(25, 25, 25, 0.9);
+		background: rgba(25, 25, 25, 0.1);
+		backdrop-filter: blur(12px);
 	}
 
 	table {
@@ -354,11 +355,11 @@
 	td {
 		padding: 0.75rem;
 		text-align: left;
-		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		border-bottom: 1px solid rgba(60, 60, 60, 0.3);
 	}
 
 	th {
-		background: rgba(15, 15, 15, 0.9);
+		background: rgba(15, 15, 15, 0.4);
 		font-weight: bold;
 		color: var(--primary-color, #4a90e2);
 	}
