@@ -3,6 +3,7 @@
 		<a href="/"><b>Burned Chicken Demonlist</b></a>
 		<div class="nav-links">
 			<a href="/">Main List</a>
+			<a href="/players">Players</a>
 			<a href="https://discord.gg/9qwtk8nJKP">Submit completion</a>
 		</div>
 	</nav>
