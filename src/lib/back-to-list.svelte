@@ -1,11 +1,5 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
 	import { navigateToHome } from '$lib/navigationHandler.js';
-	import { stopLoading } from '$lib/stores/loading.js';
-	let completions = [];
-	let loading = true;
-	let error = null;
-	let mounted = false;
 	let buttonLoading = false;
 
 	async function handleBackClick() {

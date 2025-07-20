@@ -5,7 +5,6 @@
 	import { startLevelLoading, startListLoading, stopLoading } from './stores/loading.js';
 
 	let unsubscribe = null;
-	let isNavigating = false;
 	let navigationTimeout = null;
 	let minimumLoadingTime = 500;
 	let navigationStartTime = null;
@@ -39,7 +38,7 @@
 		}
 
 		// Start loading immediately
-		isNavigating = true;
+		let isNavigating = true;
 		navigationStartTime = Date.now();
 
 		// Determine loading message based on destination

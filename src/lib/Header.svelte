@@ -79,33 +79,4 @@
 			padding: 0.25rem 0.5rem;
 		}
 	}
-
-	@media (max-width: 480px) {
-		nav {
-			gap: 0.5rem;
-		}
-
-		.nav-links {
-			gap: 1rem;
-			flex-direction: column;
-			align-items: center;
-		}
-
-		header {
-			width: 98vw;
-			padding: 0.5rem 0.75rem;
-			top: 1%;
-		}
-
-		nav a {
-			font-size: 0.9rem;
-			padding: 0.5rem 0.75rem;
-			white-space: nowrap;
-		}
-
-		nav > a {
-			font-size: 1.1rem;
-			text-align: center;
-		}
-	}
 </style>

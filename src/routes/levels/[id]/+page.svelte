@@ -1,6 +1,5 @@
 <script>
 	import { onMount, onDestroy } from 'svelte';
-	import { navigateToHome } from '$lib/navigationHandler.js';
 	import NavigateBackToList from '$lib/back-to-list.svelte';
 	import { stopLoading } from '$lib/stores/loading.js';
 
