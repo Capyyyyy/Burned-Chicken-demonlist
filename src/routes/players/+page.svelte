@@ -10,6 +10,7 @@
 	let playerRank = '';
 	let playerScore = '';
 	let hardestLevel = '';
+	let completedLevels = '';
 
 	let showElement = false;
 
@@ -37,7 +38,13 @@
 	 * This function is called when a table row is clicked.
 	 * @param {string} playerName - The name of the player from the clicked row.
 	 */
-	function handleRowClick(clickedPlayerName, clickedRank, clickedScore, clickedHardest) {
+	function handleRowClick(
+		clickedPlayerName,
+		clickedRank,
+		clickedScore,
+		clickedHardest,
+		clickedCompleted
+	) {
 		// For now, we'll just log it to confirm it's working.
 		console.log(`Row clicked! Player: "${clickedPlayerName}"`);
 		showElement = true;
@@ -47,6 +54,7 @@
 		playerRank = clickedRank;
 		playerScore = clickedScore;
 		hardestLevel = clickedHardest;
+		completedLevels = clickedCompleted;
 
 		// You can add navigation or other logic here. For example:
 		// import { goto } from '$app/navigation';
@@ -71,7 +79,13 @@
 						<tr
 							class="clickable-row"
 							on:click={() =>
-								handleRowClick(player.player_name, player.rank, player.score, player.hardest)}
+								handleRowClick(
+									player.player_name,
+									player.rank,
+									player.score,
+									player.hardest,
+									player.completedLevels
+								)}
 						>
 							<td>#{player.rank} {player.player_name}</td>
 							<td>{player.score}</td>
@@ -96,6 +110,8 @@
 				</div>
 				<h3 align="center">Hardest Level</h3>
 				<p align="center">{hardestLevel}</p>
+				<h3 align="center">Completed Levels</h3>
+				<p align="center">{completedLevels}</p>
 			</div>
 		</div>
 	</div>
