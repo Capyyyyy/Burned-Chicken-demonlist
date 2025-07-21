@@ -38,7 +38,6 @@
 		}
 
 		// Start loading immediately
-		let isNavigating = true;
 		navigationStartTime = Date.now();
 
 		// Determine loading message based on destination
@@ -73,7 +72,6 @@
 		const remainingTime = Math.max(0, minimumLoadingTime - elapsed);
 
 		navigationTimeout = setTimeout(() => {
-			isNavigating = false;
 			stopLoading();
 		}, remainingTime);
 	}

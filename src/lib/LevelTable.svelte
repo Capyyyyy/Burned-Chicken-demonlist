@@ -21,10 +21,6 @@
 
 		clickedLevelId = levelId;
 
-		// Find the level to get its name for the loading message
-		const level = levels.find((l) => l.levelId === levelId);
-		const levelName = level ? level.name : '';
-
 		// Use navigation handler with loading
 		await navigateToLevel(levelId);
 

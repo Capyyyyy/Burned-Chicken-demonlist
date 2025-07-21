@@ -1,20 +1,14 @@
 <script>
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount } from 'svelte';
 	import NavigateBackToList from '$lib/back-to-list.svelte';
 	import { stopLoading } from '$lib/stores/loading.js';
-
 	export let data;
 	const { level } = data;
-
 	let completions = [];
 	let loading = true;
 	let error = null;
-	let mounted = false;
-	let buttonLoading = false;
 
 	onMount(async () => {
-		mounted = true;
-
 		try {
 			const response = await fetch(
 				`https://bcdbackend.onrender.com/api/levels/${level.levelId}/completions`
@@ -28,17 +22,11 @@
 			} else {
 				error = 'Failed to fetch completions';
 			}
-		} catch (err) {
-			error = 'Error fetching completions';
 		} finally {
 			loading = false;
 			// Stop the navigation loading
 			stopLoading();
 		}
-	});
-
-	onDestroy(() => {
-		mounted = false;
 	});
 </script>
 
@@ -91,7 +79,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{#each completions as completion}
+							{#each completions as completion (completion.id)}
 								<tr>
 									<td>{completion.player_name}</td>
 									<td>
@@ -219,11 +207,6 @@
 			font-size: 1rem;
 			text-align: center;
 		}
-
-		.back-button {
-			font-size: 0.9rem;
-			padding: 0.6rem 1.2rem;
-		}
 	}
 
 	.other-completions {
@@ -313,17 +296,6 @@
 		td {
 			padding: 0.5rem;
 			font-size: 0.9rem;
-		}
-
-		.back-button {
-			font-size: 0.85rem;
-			padding: 0.5rem 1rem;
-			gap: 0.3rem;
-		}
-
-		.back-button svg {
-			width: 16px;
-			height: 16px;
 		}
 	}
 	:global(html) {

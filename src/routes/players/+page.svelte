@@ -2,10 +2,7 @@
 	import NavigateBackToList from '$lib/back-to-list.svelte';
 	import { onMount } from 'svelte';
 	import { stopLoading } from '$lib/stores/loading.js';
-	let isNavigating = false;
 	let players = [];
-	let loading = true;
-	let error = null;
 	let playerName = '';
 	let playerRank = '';
 	let playerScore = '';
@@ -22,13 +19,8 @@
 				const data = await response.json();
 				// Sort players by score in descending order
 				players = data.sort((a, b) => b.score - a.score);
-			} else {
-				error = 'Failed to fetch players';
 			}
-		} catch (err) {
-			error = 'Error fetching players';
 		} finally {
-			loading = false;
 			// Stop the navigation loading
 			stopLoading();
 		}
@@ -45,8 +37,6 @@
 		clickedHardest,
 		clickedCompleted
 	) {
-		// For now, we'll just log it to confirm it's working.
-		console.log(`Row clicked! Player: "${clickedPlayerName}"`);
 		showElement = true;
 
 		// Update the component's playerName state variable, which is bound to the <p> element.
@@ -75,7 +65,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each players as player}
+					{#each players as player (player.player_name)}
 						<tr
 							class="clickable-row"
 							on:click={() =>
@@ -235,6 +225,12 @@
 	@media (max-width: 768px) {
 		.table-container {
 			max-width: 100%;
+		}
+
+		.player-stats {
+			display: flex;
+			flex-direction: column;
+			gap: 4rem;
 		}
 	}
 </style>
